@@ -114,7 +114,9 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
+    text-align: center;
     align-items: center;
+    z-index: 1;
     box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
     .navbar-brand{
       @include navbar-brand;
