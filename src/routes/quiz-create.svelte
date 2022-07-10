@@ -1,5 +1,7 @@
 <script lang="ts">
 
+  import Quiz from "./quiz.svelte";
+
   let activeID: number = -1;
 
   interface Question {
@@ -16,7 +18,8 @@
     correctResponseIndex: number;
   }
 
-  export let Questions: Question[] = [];
+  let Questions: Question[] = [];
+
 
   function addQuestion() {
     let ques: Question = {
@@ -47,6 +50,8 @@
       document.getElementById("inputState")?.selectedIndex;
 
     Questions = [...Questions, ques];
+
+    console.log(Questions);
   }
 
   function displayQuestion(question: Question) {
@@ -84,7 +89,7 @@
     }
 
     document.getElementById("questionTitle").value =
-      "Enter Your Question here...";
+      "";
     document.getElementById("option1").value = "";
     document.getElementById("option2").value = "";
     document.getElementById("option3").value = "";
@@ -130,6 +135,7 @@
     Questions = Questions;
     activeID = -1;
   }
+
 </script>
 
 <svelte:head>
@@ -156,6 +162,10 @@
 </svelte:head>
 
 <section>
+
+  <div class="quiz-create-container">
+
+
   <div class="top-container">
     <!-- Question-Entries -->
 
@@ -270,6 +280,13 @@
       </form>
     </div>
   </div>
+
+  </div>
+
+  <div>
+    <Quiz Questions={Questions} />
+  </div>
+
 </section>
 
 <style>

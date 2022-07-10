@@ -1,5 +1,7 @@
 <script lang="ts">
   interface Question {
+    questionNumber: number;
+
     question: string;
 
     options: string[];
@@ -10,6 +12,24 @@
 
     correctResponseIndex: number;
   }
+
+  export let questionNumber: number;
+  export let questionTitle: string;
+  export let options: string[];
+  export let type: string;
+  export let timeAlotted: number;
+  export let correctResponseIndex: number;
+
+
+  function indexOf(opn: string) {
+    for(let i = 0; i < options.length; i++) {
+      if(options[i] === opn) {
+        return i+1;
+      }
+    }
+    return -1;
+  }
+
 </script>
 
 <svelte:head>
@@ -17,78 +37,25 @@
 </svelte:head>
 
 <section>
-  <div class="top-container">
-    <div class="question-container">
-      <h3 class="display-6">Timer:</h3>
-      <div class="question-form">
-        <label class="col-12 question-title" for="questionTitle"
-          >Question Title</label
-        >
+  <div class="question-form">
+    <label class="col-12 question-title" for="questionTitle"
+      >{questionTitle}</label
+    >
 
-        <div class="row g-3 options-form col-12">
-          <div class="option1 col-md-6">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault1"
-            />
-            <label class="form-check-label" for="flexRadioDefault1">
-              Option 1
-            </label>
-          </div>
-
-          <div class="option2 col-md-6">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault2"
-            />
-            <label class="form-check-label" for="flexRadioDefault1">
-              Option 2
-            </label>
-          </div>
-
-          <div class="option3 col-md-6">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault3"
-            />
-            <label class="form-check-label" for="flexRadioDefault3">
-              Option 3
-            </label>
-          </div>
-
-          <div class="option4 col-md-6">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault4"
-            />
-            <label class="form-check-label" for="flexRadioDefault4">
-              Option 4
-            </label>
-          </div>
+    <div class="row g-3 options-form col-12">
+      {#each options as opn}
+        <div class={"option" + indexOf(opn) + " col-md-6"}>
+          <input
+            class="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id={"flexRadioDefault" + indexOf(opn)}
+          />
+          <label class="form-check-label" for="flexRadioDefault1">
+            {opn}
+          </label>
         </div>
-
-        <div class="buttons-container row g-3">
-          <div class="col-md-6">
-            <button class="btn btn-primary transitionButtons" for="flexRadioDefault1">
-              Previous Question
-            </button>
-          </div>
-
-          <div class="col-md-6">
-            <button class="btn btn-primary transitionButtons" for="flexRadioDefault1">
-              Next Question
-            </button>
-          </div>
-        </div>
-      </div>
+      {/each}
     </div>
   </div>
 </section>
@@ -105,7 +72,7 @@
   .question-form {
     width: 900px;
     background-color: #9dd4ad;
-    height: 400px;
+    height: 300px;
     border-radius: 15px;
     padding: 20px;
   }
