@@ -1,8 +1,17 @@
-<script>
+<script lang="ts">
+  import { base } from '$app/paths'
+  import { menuActiveItem } from '$lib/scripts/menu.js'
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		let menuItems = document.getElementsByClassName("nav-item") as unknown as HTMLElement[];
+		let activeMenuItem = (document.title).replace("QuizMaster | ", "");
+		menuActiveItem(menuItems, activeMenuItem);
+	});
 </script>
 
 <svelte:head>
-    <title>Login Page</title>
+  <title>QuizMaster | Login</title>
 
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -24,129 +33,91 @@
   />
 </svelte:head>
 
-<section>
-  <div class="top-container">
-    <div class="login-container">
-      <h3 class="display-4 secondary-header">Login to QuizMaster</h3>
-
-      <div class="login-types-container">
-        <div class="email-login-container">
-          <input
-            class="inputs form-control"
-            type="email"
-            placeholder="Your Email"
-          />
-
-          <input
-            class="inputs form-control"
-            type="password"
-            placeholder="Your Password"
-          />
-          <a href="/quiz-create">
-          <button class="btn btn-outline-success login-button">Login</button>
-          </a>
-        </div>
-
-        <div class="guest-container">
-          <h3 class="guest-login-header">Login as Guest</h3>
-
-          <input
-            class="form-control guest-login-text"
-            type="text"
-            placeholder="Enter Game ID"
-          />
-
-          <button class="btn btn-primary guest-button">Play as Guest</button>
-        </div>
-      </div>
+<section class="login">
+  <div class="d1"></div>
+  <div class="d2"></div>
+  <form>
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        aria-describedby="emailHelp"
+        placeholder="Enter email"
+      />
+      <small id="emailHelp" class="form-text text-muted">
+        We'll never share your email with anyone else.
+      </small>
     </div>
-  </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        placeholder="Password"
+      />
+    </div>
+    <!-- Forget your password-->
+    <div class="form-group">
+    <p class="forgetPass"> Forgot password? <a href="{base}/forgot-password" class="reset"> Rest your password! </a> </p>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
 </section>
 
-<style>
-  .top-container {
-    width: 100%;
-    height: 100vh;
-    /* margin-top: 150px; */
-    /* margin-left: 150px; */
-    padding-top: 160px;
-    padding-left: 100px;
-    background-image: url("$lib/assets/background.jpg");
-  }
-
-  .secondary-header {
-    font-weight: 400;
-    font-family: Montserrat;
-  }
-
-  .login-container {
-    /* margin-top: 50px; */
-    text-align: center;
-    display: inline-block;
-  }
-
-  .login-types-container {
+<style lang="scss">
+  .login{
+    width: 100vw;
+    min-height: calc(100vh - 66px);
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    /* margin-top: 200px; */
-  }
+    align-items: center;
+    line-height: 40px;
+    font-size: 18px;
+    background-color: rgba(245, 245, 245, 0.712);
+    .d1{
+      width: 500px;
+      height: 500px;
+      background-color: #d8d8d831;
+      position: fixed;
+      top: -166px;
+      right: -166px;
+      transform: rotate(45deg);
+    }
+    .d2{
+      width: 800px;
+      height: 800px;
+      background-color: #d8d8d831;
+      position: fixed;
+      bottom: -200px;
+      left: -200px;
+      z-index: 0;
+      border-radius: 50%;
+      transform: rotate(-45deg);
+    }
+    form{
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      z-index: 2;
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 
-  .login-types-container > div {
-    display: block;
-    margin: 30px;
-  }
-
-  .email-login-container {
-    width: 30%;
-    height: 250px;
-    width: 510px;
-    padding: 10px;
-    font-family: "Montserrat";
-    text-align: center;
-  }
-
-  .inputs {
-    margin: auto;
-    margin-top: 20px;
-    width: 300px;
-    padding: 5px;
-  }
-
-  .login-button {
-    margin-top: 20px;
-    width: 300px;
-    /* margin: auto; */
-  }
-
-  .guest-container {
-    font-family: Montserrat;
-    border: 2px solid green;
-    width: 400px;
-    border-radius: 10px;
-    text-align: center;
-    /* padding: 10px; */
-  }
-
-  .guest-login-header {
-    background-color: green;
-    color: white;
-  }
-
-  .guest-login-text {
-    margin: auto;
-    margin-top: 50px;
-    width: 300px;
-    padding: 5px;
-  }
-
-  .guest-button {
-    margin: 30px;
-    background-color: green;
-    border-color: green;
-  }
-
-  .guest-button:hover {
-    background-color: darkgreen;
-    border-color: darkgreen;
+      label{
+        font-weight: bold;
+      }
+      .forgetPass{
+        font-family: Montserrat, sans-serif;
+        font-size: 16px;
+        margin-top: 5px;
+        opacity: 0.7;
+        .reset{
+          color: rgb(20, 161, 117);
+        }
+      }
+    }
   }
 </style>

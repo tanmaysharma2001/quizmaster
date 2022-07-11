@@ -22,10 +22,12 @@
 <style lang="scss">
     .footer{
         width: 100vw;
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
         background-color: rgba(0, 0, 0, 0.95);
+        z-index: 2;
         p{
             color: white;
             text-align: center;

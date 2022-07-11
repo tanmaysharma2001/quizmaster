@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { getFirestore, getDocs, collection } from "firebase/firestore";
+  import { onMount } from "svelte";
+
   let currentIndex: number = 0;
 
   let userScore: number = 0;
@@ -6,7 +9,7 @@
   let gameID: string = "4A6985";
   let timeRemaining: number = 0;
 
-  interface Question {
+  type Question = {
     questionNumber: number;
 
     question: string;
@@ -18,38 +21,60 @@
     timeAlotted: number;
 
     correctResponseIndex: number;
-  }
+  };
 
   let Questions: Question[] = [];
 
-  for (let i = 0; i < Questions.length; i++) {
-    timeRemaining += Questions[i].timeAlotted * 60;
-  }
+  onMount(async () => {
+    const db = getFirestore();
+    const ref = collection(db, "questions");
+    const snapshot = await getDocs(ref);
+    Questions = snapshot.docs.map((doc) => doc.data()) as Question[];
+    // console.log(Questions); // <-- This is printing the questions.
+  });
 
-  var timerID = setInterval(countdown, 1000);
+  setTimeout(() => {
+    console.log("Hello Worlsdsadd!");
+    console.log(Questions); // <-- This is printing the questions.
+  }, 3000); // <-- this is not!
 
-  function convertToMinutes() {
-    var min = Math.floor(timeRemaining / 60);
-    var seconds = timeRemaining % 60;
-    let resu = min + ":" + seconds;
-    return resu;
-  }
+  console.log(Questions);
 
-  function countdown() {
-    if (timeRemaining == -1) {
-      clearTimeout(timeRemaining);
-    } else {
-      document.getElementById("timer").innerHTML =
-        "Time Remaining: " + convertToMinutes();
-      timeRemaining--;
-    }
-  }
+  // for (let i = 0; i < Questions.length; i++) {
+  //   timeRemaining += Questions[i].timeAlotted * 60;
+  // }
 
-  //sadsad
+  // var timerID = setInterval(countdown, 1000);
+
+  // function convertToMinutes() {
+  //   var min = Math.floor(timeRemaining / 60);
+  //   var seconds = timeRemaining % 60;
+  //   let resu = min + ":" + seconds;
+  //   return resu;
+  // }
+
+  // var timer: string = "";
+
+  // function countdown() {
+  //   if (timeRemaining == -1) {
+  //     clearTimeout(timeRemaining);
+  //   } else {
+  //     timer =
+  //       "Time Remaining: " + convertToMinutes();
+  //     timeRemaining--;
+  //   }
+  // }
+
+  // //sadsad
 
   import QuestionEle from "$lib/question-element.svelte";
 
   let userResponses: number[] = [];
+
+  // // var radio1: boolean;
+  // // var radio2: boolean;
+  // // var radio3: boolean;
+  // // var radio4: boolean;
 
   function finishQuiz() {
     if (document.getElementById("flexRadioDefault1")?.checked) {
@@ -136,69 +161,73 @@
 </svelte:head>
 
 <section>
-  <div class="top-container">
-    <div class="row justify-content-between">
-      <div class="col-2"><p>Game ID: {gameID}</p></div>
-      <div class="col-3">
-        <p id="timer" style="text-align: right" />
-      </div>
+  <div class="questions">
+    <div class="question-part">
+      <p style="font-size: 20px;">
+        Question {currentIndex + 1} out of {Questions.length}
+        <br />
+      </p>
+
+      <p style="visibility: hidden;" id="result">Your Result: {userScore}</p>
+
+      <!-- <QuestionEle
+        questionNumber={Questions[currentIndex].questionNumber}
+        questionTitle={Questions[currentIndex].question}
+        options={Questions[currentIndex].options}
+        type={Questions[currentIndex].type}
+        timeAlotted={Questions[currentIndex].timeAlotted}
+        correctResponseIndex={Questions[currentIndex].correctResponseIndex}
+      /> -->
     </div>
   </div>
-
-  <div class="question-part">
-    <p style="font-size: 20px;">
-      Question {currentIndex + 1} out of {Questions.length}
-      <br />
-    </p>
-
-    <p style="visibility: hidden;" id="result">Your Result: {userScore}</p>
-
-    <QuestionEle
-      questionNumber={Questions[currentIndex].questionNumber}
-      questionTitle={Questions[currentIndex].question}
-      options={Questions[currentIndex].options}
-      type={Questions[currentIndex].type}
-      timeAlotted={Questions[currentIndex].timeAlotted}
-      correctResponseIndex={Questions[currentIndex].correctResponseIndex}
-    />
-
-    <div class="buttons-container row g-3">
-      <div class="col-md-6">
-        <a
-          on:click={finishQuiz}
-          href="/result"
-          id="finishButton"
-          class="btn btn-primary transitionButtons"
-          style="visibility:hidden"
-        >
-          Finish Quiz!
-        </a>
-
-        <!-- <button
-          on:click|preventDefault={finishQuiz}
-          class="btn btn-primary transitionButtons"
-          for="flexRadioDefault1"
-          id="finishButton"
-          style="visibility: hidden"
-        >
+  <div class="buttons-container row g-3">
+    <div class="col-md-6">
+      <!-- <a
+        href="/result"
+        id="finishButton"
+        class="btn btn-primary transitionButtons"
+        style="visibility:hidden"
+      >
         Finish Quiz!
-        </button> -->
-      </div>
+      </a> -->
 
-      <div class="col-md-6 align-self-center">
-        <button
-          on:click={nextQuestion}
-          class="btn btn-primary transitionButtons"
-          for="flexRadioDefault1"
-          id="nextButton"
-        >
-          Next Question
-        </button>
-      </div>
+      <button
+        class="btn btn-primary transitionButtons"
+        for="flexRadioDefault1"
+        id="finishButton"
+        style="visibility: hidden"
+      >
+        Finish Quiz!
+      </button>
+    </div>
+
+    <div class="col-md-6 align-self-center">
+      <button
+        class="btn btn-primary transitionButtons"
+        for="flexRadioDefault1"
+        id="nextButton"
+      >
+        Next Question
+      </button>
     </div>
   </div>
 </section>
 
+<!-- 
+<section>
+  <div class="top-container">
+    <div class="row justify-content-between">
+      <div class="col-2"><p>Game ID: {gameID}</p></div>
+      <div class="col-3">
+        <p contenteditable="true" bind:innerHTML={timer} id="timer" style="text-align: right" />
+      </div>
+    </div>
+  </div>
+
+
+    </div>
+  </div>
+</section> -->
 <style>
   .top-container {
     margin: 20px 30px;

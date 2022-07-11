@@ -1,46 +1,63 @@
 <script lang="ts">
-    import { base } from '$app/paths';
-    import bars_src from '$lib/assets/svgs/bars.svg';
-    import close_src from '$lib/assets/svgs/xmark.svg';
-    let mobileMenu : HTMLElement;
-    function closeMenu(){
-      let menuChildren = mobileMenu.childNodes;
-      for(let i = 0; i < menuChildren.length; i++){
-        let child = menuChildren[i] as HTMLElement;
-        if(child.nodeName == "A"){
-          child.style.display = "none";
-        } else if (child.nodeName == "UL"){
-          child.style.marginLeft = "-100vw";
-        }
-      }
-      mobileMenu.style.display = "none";
-    }
-    function openMenu(){
-      mobileMenu.style.display = "block";
-      let menuChildren = mobileMenu.childNodes;
-      for(let i = 0; i < menuChildren.length; i++){
-        let child = menuChildren[i] as HTMLElement;
-        if(child.nodeName == "A"){
-          child.style.display = "block";
-        } else if (child.nodeName == "UL"){
-          child.style.marginLeft = "0vw";
-        }
+  import { base } from "$app/paths";
+  import bars_src from "$lib/assets/svgs/bars.svg";
+  import close_src from "$lib/assets/svgs/xmark.svg";
+  import { goto } from "$app/navigation";
+  import { getAuth, signOut } from "firebase/auth";
+  import { isLoggedIn } from "../../routes/stores/authStore";
+  import { onDestroy, onMount } from "svelte";
+  import { menuActiveItem } from '$lib/scripts/menu.js'
+
+  let mobileMenu: HTMLElement;
+  onMount(() => {
+    let menuItems = document.getElementsByClassName("nav-item") as unknown as HTMLElement[];
+    let activeMenuItem = (document.title).replace("QuizMaster | ", "");
+
+    menuActiveItem(menuItems, activeMenuItem);
+  });
+  function closeMenu() {
+    let menuChildren = mobileMenu.childNodes;
+    for (let i = 0; i < menuChildren.length; i++) {
+      let child = menuChildren[i] as HTMLElement;
+      if (child.nodeName == "A") {
+        child.style.display = "none";
+      } else if (child.nodeName == "UL") {
+        child.style.marginLeft = "-100vw";
       }
     }
+    mobileMenu.style.display = "none";
+  }
+  function openMenu() {
+    mobileMenu.style.display = "block";
+    let menuChildren = mobileMenu.childNodes;
+    for (let i = 0; i < menuChildren.length; i++) {
+      let child = menuChildren[i] as HTMLElement;
+      if (child.nodeName == "A") {
+        child.style.display = "block";
+      } else if (child.nodeName == "UL") {
+        child.style.marginLeft = "0vw";
+      }
+    }
+  }
+
+  const auth = getAuth();
+  function logout() {
+    signOut(auth)
+      .then(() => {
+        localStorage.removeItem("uid");
+        goto("/login");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 </script>
 
 <svelte:head>
-  <!--<link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-    crossorigin="anonymous"
-  />-->
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" />
 
-  <link 
+  <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap"
     rel="stylesheet"
   />
@@ -52,61 +69,73 @@
 </svelte:head>
 
 <section class="navbar">
-    <a class="navbar-brand" href="{ base }"> QuizMaster </a>
-    <ul class="navIcons">
-      <li class="nav-item active">
-        <a class="nav-link" aria-current="page" href="{ base }">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{ base }/about">About</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{ base }/about">Contact</a>
-      </li>
-      <li class="nav-item loginItem">
-        <a class="nav-link" href="{ base }/login">Login</a>
-      </li>
-      <li class="nav-item joinItem">
-        <a class="nav-link" href="{ base }/login">Join us</a>
-      </li>
-    </ul>
+  <a class="navbar-brand" href={base}> QuizMaster </a>
+  <ul class="navIcons">
+    <li class="nav-item active">
+      <a class="nav-link" aria-current="page" href="{base}/">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{base}/about">About</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{base}/contact">Contact</a>
+    </li>
 
-    <!-- Mobile Navigation -->
-    <img src={bars_src} alt="menu" class="menuIcon" on:click={openMenu}/>
+    {#if !$isLoggedIn}
+      <li class="nav-item loginItem">
+        <a class="nav-link" on:click|preventDefault={logout} href="{base}/login">Login</a>
+      </li>
+    {/if}
+
+    <li class="nav-item joinItem">
+      <a class="nav-link" href="{base}/joinus">Join us</a>
+    </li>
+  </ul>
+
+  <!-- Mobile Navigation -->
+  <img src={bars_src} alt="menu" class="menuIcon" on:click={openMenu} />
 </section>
 
 <section class="mobile-menu" bind:this={mobileMenu}>
-  <a class="navbar-brand" href="{ base }"> QuizMaster </a>
+  <a class="navbar-brand" href="{base}/"> QuizMaster </a>
   <div class="close" on:click={closeMenu}>
-    <img src={close_src} alt="close" class="closeIcon"/>
+    <img src={close_src} alt="close" class="closeIcon" />
   </div>
   <ul class="m-navIcons">
-    <li class="nav-item active">
-      <a class="nav-link" aria-current="page" href="{ base }">Home</a>
+    <li class="nav-item">
+      <a class="nav-link" aria-current="page" href="{base}/">Home</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{ base }/about">About</a>
+      <a class="nav-link" href="{base}/about">About</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{ base }/about">Contact</a>
+      <a class="nav-link" href="{base}/contact">Contact</a>
     </li>
-    <li class="nav-item loginItem">
-      <a class="nav-link" href="{ base }/login">Login</a>
-    </li>
+    
+    {#if !$isLoggedIn}
+      <li class="nav-item loginItem">
+        <a class="nav-link" on:click|preventDefault={logout} href="{base}/login">Login</a>
+      </li>
+    {/if}
+
     <li class="nav-item joinItem">
-      <a class="nav-link" href="{ base }/login">Join us</a>
+      <a class="nav-link" href="{base}/joinus">Join us</a>
     </li>
+
   </ul>
 </section>
 
 <style lang="scss">
-  @mixin navbar-brand{
+  @mixin navbar-brand {
     font-size: 1.5em;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-weight: 600;
     color: rgba(0, 0, 0, 0.8);
   }
-  .navbar{
+  .active::after {
+        width: calc(100% - 2rem) !important;
+  }
+  .navbar {
     background-color: #fff;
     position: sticky;
     top: 0;
@@ -117,26 +146,26 @@
     text-align: center;
     align-items: center;
     z-index: 1;
-    box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
-    .navbar-brand{
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    .navbar-brand {
       @include navbar-brand;
     }
-    .navIcons{
+    .navIcons {
       display: flex;
       flex-flow: row nowrap;
       align-items: center;
       margin: 0px;
-      .nav-item{
+      .nav-item {
         display: inline;
         position: relative;
-        a{
+        a {
           font-size: 15px;
-          font-family: 'Montserrat', sans-serif;
+          font-family: "Montserrat", sans-serif;
           font-weight: 100;
           color: rgba(0, 0, 0, 0.616);
           margin: 0px;
         }
-        &::after{
+        &::after {
           content: "";
           display: block;
           margin: -5px auto;
@@ -147,30 +176,25 @@
           background-color: rgb(20, 161, 117);
           transition: width 0.3s ease-in-out;
         }
-        &:hover::after{
+        &:hover::after {
           width: calc(100% - 2rem);
         }
       }
-      .loginItem{
-        .nav-link{
+      .loginItem {
+        .nav-link {
           color: rgb(20, 161, 117);
         }
       }
-      .joinItem{
-        .nav-link{
+      .joinItem {
+        .nav-link {
           color: rgb(255, 255, 255);
           background-color: rgb(20, 161, 117);
           border-radius: 5px;
         }
       }
-      .active{
-        &::after{
-          width: calc(100% - 2rem);
-        }
-      }
     }
     // Mobile Navigation
-    .menuIcon{
+    .menuIcon {
       height: 25px;
       display: none;
       margin: 0px;
@@ -178,7 +202,7 @@
       opacity: 0.8;
     }
   }
-  .mobile-menu{
+  .mobile-menu {
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -186,13 +210,13 @@
     z-index: 5;
     background-color: rgba(20, 161, 116, 0);
     display: none;
-    .navbar-brand{
+    .navbar-brand {
       position: fixed;
       @include navbar-brand;
       top: 23px;
       left: 4vw;
     }
-    ul{
+    ul {
       list-style: none;
       padding: 0px 15vw;
       margin: 0px;
@@ -204,34 +228,34 @@
       align-items: left;
       background-color: rgb(20, 161, 116);
       z-index: 20;
-      a{
+      a {
         text-decoration: none;
         color: white;
         font-size: 1.25rem;
         transition: border 0.1s ease-in-out;
         margin: 10px 20px;
         cursor: pointer;
-        &:hover{
+        &:hover {
           border-left: 4px solid rgba(255, 255, 255, 0.8);
         }
       }
     }
-    .joinItem{
+    .joinItem {
       background-color: #fff;
       height: 52px;
       width: 130px;
       text-align: center;
       border-radius: 15px;
-      a{
+      a {
         color: rgb(20, 161, 116);
         padding: 0px;
         background-color: transparent;
-        &:hover{
+        &:hover {
           border-left: 0px solid rgba(255, 255, 255, 0.8);
         }
       }
     }
-    .close{
+    .close {
       position: fixed;
       display: flex;
       justify-content: center;
@@ -239,25 +263,25 @@
       top: 25px;
       left: 38vw;
       cursor: pointer;
-      .closeIcon{
+      .closeIcon {
         width: 40px;
         height: 40px;
         filter: invert(100%);
       }
     }
   }
-  @media screen and (max-width: 1100px){
-    .navbar{
-      .navIcons{
+  @media screen and (max-width: 1100px) {
+    .navbar {
+      .navIcons {
         display: none;
       }
-      .menuIcon{
+      .menuIcon {
         display: block;
       }
     }
   }
-  @media screen and (max-width: 600px){
-    .close{
+  @media screen and (max-width: 600px) {
+    .close {
       left: 50vw !important;
     }
   }

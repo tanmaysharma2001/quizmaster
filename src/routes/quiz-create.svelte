@@ -1,5 +1,4 @@
 <script lang="ts">
-
   let activeID: number = -1;
 
   interface Question {
@@ -85,8 +84,7 @@
       activeID = -1;
     }
 
-    document.getElementById("questionTitle").value =
-      "";
+    document.getElementById("questionTitle").value = "";
     document.getElementById("option1").value = "";
     document.getElementById("option2").value = "";
     document.getElementById("option3").value = "";
@@ -132,7 +130,6 @@
     Questions = Questions;
     activeID = -1;
   }
-
 </script>
 
 <svelte:head>
@@ -159,127 +156,123 @@
 </svelte:head>
 
 <section>
-
   <div class="quiz-create-container">
+    <div class="top-container">
+      <!-- Question-Entries -->
 
+      <div class="question-container">
+        <div class="questions-entries">
+          <h1 class="display-4">Questions List</h1>
 
-  <div class="top-container">
-    <!-- Question-Entries -->
+          <div class="list-group">
+            {#each Questions as ques}
+              <button
+                on:click|preventDefault={displayQuestion(ques)}
+                id={"question" + ques.questionNumber}
+                type="button"
+                class="list-group-item list-group-item-action"
+                >Question {ques.questionNumber}</button
+              >
+            {/each}
+          </div>
+        </div>
 
-    <div class="question-container">
-      <div class="questions-entries">
-        <h1 class="display-4">Questions List</h1>
-
-        <div class="list-group">
-          {#each Questions as ques}
-            <button
-              on:click|preventDefault={displayQuestion(ques)}
-              id={"question" + ques.questionNumber}
-              type="button"
-              class="list-group-item list-group-item-action"
-              >Question {ques.questionNumber}</button
+        <div class="buttons">
+          <button
+            on:click|preventDefault={clearQuestionList}
+            type="submit"
+            class="btn btn-primary">Clear Questions List</button
+          >
+          <a href="/quiz">
+            <button type="submit" class="btn btn-primary">Start the Quiz</button
             >
-          {/each}
+          </a>
         </div>
       </div>
 
-      <div class="buttons">
-        <button
-          on:click|preventDefault={clearQuestionList}
-          type="submit"
-          class="btn btn-primary">Clear Questions List</button
-        >
-        <a href="/quiz">
-        <button type="submit" class="btn btn-primary">Start the Quiz</button>
-        </a>
+      <!-- Quiz Form -->
+
+      <div class="quiz-form">
+        <form method="get" class="row g-3 question-form">
+          <!-- Question Title -->
+          <div class="col-12">
+            <label for="questionTitle" class="form-label">Question Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="questionTitle"
+              placeholder="Enter your question here..."
+            />
+          </div>
+
+          <!-- Options -->
+
+          <div class="col-md-6">
+            <label for="option1" class="form-label">Option 1</label>
+            <input type="text" class="form-control" id="option1" />
+          </div>
+          <div class="col-md-6">
+            <label for="option2" class="form-label">Option 2</label>
+            <input type="text" class="form-control" id="option2" />
+          </div>
+          <div class="col-md-6">
+            <label for="option3" class="form-label">Option 3</label>
+            <input type="text" class="form-control" id="option3" />
+          </div>
+          <div class="col-md-6">
+            <label for="option4" class="form-label">Option 4</label>
+            <input type="text" class="form-control" id="option4" />
+          </div>
+
+          <!-- Type and Time -->
+          <div class="col-md-6">
+            <label for="questionType" class="form-label">Question Type:</label>
+            <input type="text" class="form-control" id="questionType" />
+          </div>
+          <div class="col-md-6">
+            <label for="questionTime" class="form-label"
+              >Time to allot(in minutes):</label
+            >
+            <input type="text" class="form-control" id="questionTime" />
+          </div>
+
+          <!-- Correct Response -->
+          <div class="col-md-4">
+            <label for="inputState" class="form-label">Correct Response:</label>
+            <select id="inputState" class="form-select">
+              <option selected>Choose...</option>
+              <option value="1" id="1response">1st response</option>
+              <option value="2" id="2response">2nd response</option>
+              <option value="3" id="3response">3rd response</option>
+              <option value="4" id="4response">4th response</option>
+            </select>
+          </div>
+          <div class="buttons-form col-12">
+            <button
+              on:click|preventDefault={addQuestion}
+              type="submit"
+              class="btn btn-primary">Add Question</button
+            >
+            <button
+              on:click|preventDefault={clearQuestion}
+              type="submit"
+              class="btn btn-primary">Clear Question</button
+            >
+            <button
+              on:click|preventDefault={deleteQuestion}
+              type="submit"
+              class="btn btn-primary">Delete This Question</button
+            >
+            <button
+              on:click|preventDefault={saveChanges}
+              type="submit"
+              class="btn btn-primary">Save Changes</button
+            >
+          </div>
+        </form>
       </div>
     </div>
-
-    <!-- Quiz Form -->
-
-    <div class="quiz-form">
-      <form method="get" class="row g-3 question-form">
-        <!-- Question Title -->
-        <div class="col-12">
-          <label for="questionTitle" class="form-label">Question Title</label>
-          <input
-            type="text"
-            class="form-control"
-            id="questionTitle"
-            placeholder="Enter your question here..."
-          />
-        </div>
-
-        <!-- Options -->
-
-        <div class="col-md-6">
-          <label for="option1" class="form-label">Option 1</label>
-          <input type="text" class="form-control" id="option1" />
-        </div>
-        <div class="col-md-6">
-          <label for="option2" class="form-label">Option 2</label>
-          <input type="text" class="form-control" id="option2" />
-        </div>
-        <div class="col-md-6">
-          <label for="option3" class="form-label">Option 3</label>
-          <input type="text" class="form-control" id="option3" />
-        </div>
-        <div class="col-md-6">
-          <label for="option4" class="form-label">Option 4</label>
-          <input type="text" class="form-control" id="option4" />
-        </div>
-
-        <!-- Type and Time -->
-        <div class="col-md-6">
-          <label for="questionType" class="form-label">Question Type:</label>
-          <input type="text" class="form-control" id="questionType" />
-        </div>
-        <div class="col-md-6">
-          <label for="questionTime" class="form-label"
-            >Time to allot(in minutes):</label
-          >
-          <input type="text" class="form-control" id="questionTime" />
-        </div>
-
-        <!-- Correct Response -->
-        <div class="col-md-4">
-          <label for="inputState" class="form-label">Correct Response:</label>
-          <select id="inputState" class="form-select">
-            <option selected>Choose...</option>
-            <option value="1" id="1response">1st response</option>
-            <option value="2" id="2response">2nd response</option>
-            <option value="3" id="3response">3rd response</option>
-            <option value="4" id="4response">4th response</option>
-          </select>
-        </div>
-        <div class="buttons-form col-12">
-          <button
-            on:click|preventDefault={addQuestion}
-            type="submit"
-            class="btn btn-primary">Add Question</button
-          >
-          <button
-            on:click|preventDefault={clearQuestion}
-            type="submit"
-            class="btn btn-primary">Clear Question</button
-          >
-          <button
-            on:click|preventDefault={deleteQuestion}
-            type="submit"
-            class="btn btn-primary">Delete This Question</button
-          >
-          <button
-            on:click|preventDefault={saveChanges}
-            type="submit"
-            class="btn btn-primary">Save Changes</button
-          >
-        </div>
-      </form>
-    </div>
   </div>
-
-  </div>
-
 </section>
 
 <style>
