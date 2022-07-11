@@ -7,21 +7,8 @@ const config = {
 	// for more information about preprocessors
 	preprocess: preprocess(),
 
-	prerender: {
-		default: true,
-	},
-
-	experiment: {
-		useVitePreprocess: true
-	},
-
 	kit: {
-		adapter: adapter(),
-
-		// Override http methods in the Todo forms
-		methodOverride: {
-			allowed: ['PATCH', 'DELETE']
-		}
+		adapter: adapter()
 	}
 };
 
