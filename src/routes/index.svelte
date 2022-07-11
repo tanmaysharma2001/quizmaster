@@ -1,14 +1,14 @@
 <script context="module">
   export const prerender = true;
-
-
 </script>
 
 <script lang="ts">
   import lottieSrc from '$lib/assets/lottie/lottie-home.json?url';
-
-    // typeWriter effect
-    let type_effect : HTMLElement;
+  import { menuActiveItem } from '$lib/scripts/menu.js'
+  import { onDestroy, onMount } from 'svelte';
+  // typeWriter effect
+  // typeWriter effect
+  let type_effect : HTMLElement;
   let s : number = 0; // sentence index
   let l : number = 0; // letter index
   let txt : string [] = [
@@ -17,7 +17,6 @@
                           'Study on your own',
                         ]; // text
   let speed : number= 100; // typing speed
-
   function typeWriter(txt : string[]): void{
       let text : string = txt[s];
       let sentence_length : number = text.length;
@@ -32,7 +31,6 @@
           l = 0;
           s++;
           if(s >= txt.length) s = 0;
-
           function removeLastLetter(): void{
               let typeContainer: HTMLElement | null = type_effect;
         
@@ -45,17 +43,20 @@
                   setTimeout(function(){typeWriter(txt)}, speed);
               }
           }
-
           removeLastLetter();  // remove the existing text letter by letter
       }
   }
-
-  typeWriter(txt);
+  typeWriter(txt); // text 
+  onMount(() => {
+    let menuItems = document.getElementsByClassName("nav-item") as unknown as HTMLElement[];
+    let activeMenuItem = (document.title).replace("QuizMaster | ", "");
+    menuActiveItem(menuItems, activeMenuItem);
+  });
 </script>
 
 <svelte:head>
   <title>QuizMaster | Home</title>
-  <meta name="description" content="Svelte demo app" />
+  <meta name="description" content="QuizMaster Home page." />
 
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -79,7 +80,7 @@
   <script defer src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </svelte:head>
 
-<section class="home">
+<section class="home" >
   <div class="home-container">
     <h1 class="intro-heading">
       Welcome to the <br> Quiz<span id="intro-heading-master-span">Master</span>
@@ -90,9 +91,12 @@
   <div class="lottieHome">
     <lottie-player src={ lottieSrc } loop nocontrols autoplay></lottie-player>
   </div>
+
 </section>
 
 <style lang="scss">
+  @import '../lib/assets/styles/common.scss';
+
   .home{
     display: flex;
     flex-flow: row nowrap;
@@ -100,7 +104,7 @@
     justify-content: center;
     align-items: center;
     width: 100vw;
-    height: calc( 100vh - 66px);
+    min-height: calc( 100vh - 66px);
     overflow: hidden;
     line-height: 40px;
     .home-container{

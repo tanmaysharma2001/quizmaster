@@ -1,32 +1,4 @@
 <script lang="ts">
-  //   import { goto } from "$app/navigation";
-
-  //   import { getAuth, onAuthStateChanged } from "firebase/auth";
-  //   import { onMount } from "svelte";
-  //   import { initializeApp } from "firebase/app";
-
-  //   onMount(() => {
-  //     const firebaseConfig = {
-  //       apiKey: "AIzaSyCxBSFf2D1i4KQaKMI_IeciTjBuk-xJLco",
-  //       authDomain: "kahoot-frontend.firebaseapp.com",
-  //       projectId: "kahoot-frontend",
-  //       storageBucket: "kahoot-frontend.appspot.com",
-  //       messagingSenderId: "944238291320",
-  //       appId: "1:944238291320:web:c71eb703245ad11e3d408d",
-  //       measurementId: "G-M97JMYWPJ3",
-  //     };
-
-  //     const app = initializeApp(firebaseConfig);
-  //   });
-  //   const auth = getAuth();
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       console.log("Welcome!");
-  //     } else {
-  //       goto("/login");
-  //     }
-  //   });
-
   let activeID: number = -1;
 
   interface Question {
@@ -194,8 +166,12 @@
 
           <div class="list-group">
             {#each Questions as ques}
+<<<<<<< HEAD
               <button
                 on:click|preventDefault={displayQuestion(ques)}
+=======
+              <button on:click = {displayQuestion(ques)}
+>>>>>>> cb02653cd788ec1de2595b77ed9813169de2ec11
                 id={"question" + ques.questionNumber}
                 type="button"
                 class="list-group-item list-group-item-action"
@@ -310,7 +286,6 @@
     /* background-color: purple; */
     display: flex;
     /* padding-right: 150px; */
-    background-image: url("$lib/assets/background.jpg");
   }
 
   .top-container > div {

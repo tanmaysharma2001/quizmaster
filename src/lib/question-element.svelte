@@ -66,7 +66,6 @@
     height: 100vh;
     padding-top: 50px;
     padding-left: 150px;
-    background-image: url("$lib/assets/background.jpg");
   }
 
   .question-form {

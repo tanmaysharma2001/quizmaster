@@ -26,8 +26,6 @@
 	"dependencies": {
 		"@fontsource/fira-mono": "^4.5.0",
 		"cookie": "^0.4.1",
-		"firebase": "^9.9.0",
-		"serve": "^13.0.4",
-		"sveltestrap": "^5.9.0"
+		"firebase": "^9.9.0"
 	}
 }
