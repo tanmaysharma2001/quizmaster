@@ -241,7 +241,6 @@
     width: 100%;
     height: 90vh;
     font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    background-image: url("$lib/assets/background.jpg");
     /* text-align: center; */
   }
 

@@ -166,8 +166,7 @@
 
           <div class="list-group">
             {#each Questions as ques}
-              <button
-                on:click|preventDefault={displayQuestion(ques)}
+              <button on:click = {displayQuestion(ques)}
                 id={"question" + ques.questionNumber}
                 type="button"
                 class="list-group-item list-group-item-action"
@@ -282,7 +281,6 @@
     /* background-color: purple; */
     display: flex;
     /* padding-right: 150px; */
-    background-image: url("$lib/assets/background.jpg");
   }
 
   .top-container > div {
