@@ -1,5 +1,4 @@
 <script lang="ts">
-
   let currentIndex: number = 0;
 
   let userScore: number = 0;
@@ -21,7 +20,7 @@
     correctResponseIndex: number;
   }
 
-  export let Questions: Question[] = [];
+  let Questions: Question[] = [];
 
   for (let i = 0; i < Questions.length; i++) {
     timeRemaining += Questions[i].timeAlotted * 60;
@@ -48,8 +47,7 @@
 
   //sadsad
 
-  import QuestionEle from "./question-element.svelte";
-  import { getContext } from "svelte";
+  import QuestionEle from "$lib/question-element.svelte";
 
   let userResponses: number[] = [];
 

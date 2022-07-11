@@ -1,7 +1,5 @@
 <script lang="ts">
 
-  import Quiz from "./quiz.svelte";
-
   let activeID: number = -1;
 
   interface Question {
@@ -19,7 +17,6 @@
   }
 
   let Questions: Question[] = [];
-
 
   function addQuestion() {
     let ques: Question = {
@@ -281,10 +278,6 @@
     </div>
   </div>
 
-  </div>
-
-  <div>
-    <Quiz Questions={Questions} />
   </div>
 
 </section>
