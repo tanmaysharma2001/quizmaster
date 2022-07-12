@@ -34,14 +34,14 @@
 	<title>Question - number</title>
 </svelte:head>
 
-<section>
-
-	<div class="question-form">
+<section class="quizPage">
+	<div class="d1" />
+	<div class="d2" />
+	<div class="question-form row">
 		<div class="question col-12 question-title" for="questionTitle">{questionTitle}</div>
-
 		<div class="answers row g-3 options-form col-12">
 			{#each options as opn}
-				<div class="col-md-6">
+				<div class="col-sm-3">
 					<input
 						class="inputs form-check-input"
 						type="radio"
@@ -55,64 +55,42 @@
 	</div>
 </section>
 
-<style>
-	.top-container {
-		width: 100%;
-		height: 100vh;
-		padding-top: 50px;
-		padding-left: 150px;
-		text-align: center;
-	}
+<style lang="scss">
+	.quizPage{
+		.question-form {
+			position: relative;
+			justify-content: center;
+			align-items: center;
+			.row{
+				margin: 0 !important;
+			}
+			.col-sm-3{
+				text-align: center !important;
+			}
+			.col-12{
+				font-size: 1.5rem;
+				font-weight: bold;
+				text-align: left !important;
+			}
+			.question{
+				font-size: 1.5rem;
+				font-weight: bold;
+				text-align: center;
+			}
+			.options-form{
+				display: flex;
+				flex-direction: row;
+				.form-check-label{
+					font-size: 15px;
+					font-weight: 100;
+				}
+				.question-title{
+					font-size: 1.5rem;
+					font-weight: bold;
+					text-align: center;
+				}
 
-	.question-form {
-		width: 900px;
-		background-color: #9dd4ad;
-		height: 300px;
-		border-radius: 15px;
-		padding: 20px;
-		margin-top: 40px !important;
-		margin-bottom: 40px !important;
-		margin: auto;
-	}
-
-	.question-title {
-		overflow: scroll;
-		font-size: 20px;
-		background-color: #fcf4ec;
-		border-radius: 25px;
-		height: 80px;
-		padding: 10px;
-	}
-
-	.options-form {
-		margin: 20px;
-	}
-
-	.form-check-input {
-		margin-top: 15px;
-		margin-right: 5px;
-		size: 20px;
-		/* background-color: #fcf4ec; */
-	}
-
-	.form-check-label {
-		height: 50px;
-		width: 350px;
-		padding: 10px;
-		background-color: #fcf4ec;
-		border-radius: 40px;
-	}
-
-	.buttons-container {
-		margin: 20px;
-		text-align: center;
-	}
-
-	.transitionButtons {
-		height: 50px;
-		width: 200px;
-		padding: 10px;
-		/* background-color: #fcf4ec; */
-		border-radius: 40px;
+			}
+		}	
 	}
 </style>

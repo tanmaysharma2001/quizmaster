@@ -174,12 +174,12 @@
 	<div class="d2" />
   <div class="container">
     <div class="row">
-      <!-- Question-Entries -->
 
+      <!-- Question-Entries -->
       <div class="question-container col-md-6">
         <div class="questions-entries">
           <h1 contenteditable="true" bind:innerHTML={questionListHeading} class="display-4"></h1>
-
+          <p class="filler"> Create a quiz now !</p>
           <div class="list-group">
             {#each Questions as ques}
               <button
@@ -207,7 +207,6 @@
       </div>
 
       <!-- Quiz Form -->
-
       <div class="quiz-form row col-md-6">
         <form method="get" class="row g-3 question-form">
           <!-- Question Title -->
@@ -282,6 +281,7 @@
           </div>
         </form>
       </div>
+
     </div>
   </div>
 </section>
@@ -317,11 +317,11 @@
 			border-radius: 50%;
 			transform: rotate(-45deg);
 		}
-    .row{
-      margin: 0px !important;
-      justify-content: space-between !important;
-    }
     .container{
+      .row{
+        margin: 0px !important;
+        justify-content: space-between !important;
+      }
       position: relative;
       line-height: 40px;
       form{
@@ -357,7 +357,12 @@
           font-family: Montserrat;
         }
       }
+      .filler{
+        font-size: 15px;
+        color: rgba(0, 0, 0, 0.575);
+        font-family: Montserrat;
+        margin: 10px;
+      }
     }
-    
   }
 </style>
