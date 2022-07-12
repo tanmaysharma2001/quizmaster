@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "immutable/start-27418a78.js",
+    "file": "immutable/start-18a344de.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -24,7 +24,7 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "immutable/pages/__layout.svelte-6f57a7b5.js",
+    "file": "immutable/pages/__layout.svelte-0d1a2976.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -36,7 +36,7 @@
       "_singletons-cdeec3fd.js"
     ],
     "css": [
-      "immutable/assets/pages/__layout.svelte-f27bf3e8.css"
+      "immutable/assets/pages/__layout.svelte-121e9b02.css"
     ],
     "assets": [
       "immutable/assets/bars-1642cc13.svg",
@@ -137,7 +137,7 @@
     ]
   },
   "src/routes/quiz-create.svelte": {
-    "file": "immutable/pages/quiz-create.svelte-e1f6f90f.js",
+    "file": "immutable/pages/quiz-create.svelte-404d4c19.js",
     "src": "src/routes/quiz-create.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -147,11 +147,11 @@
       "_index.esm2017-da53403b.js"
     ],
     "css": [
-      "immutable/assets/pages/quiz-create.svelte-518e4e08.css"
+      "immutable/assets/pages/quiz-create.svelte-dcf766f0.css"
     ]
   },
   "src/routes/quiz.svelte": {
-    "file": "immutable/pages/quiz.svelte-52ac580a.js",
+    "file": "immutable/pages/quiz.svelte-a2695f04.js",
     "src": "src/routes/quiz.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -163,7 +163,7 @@
       "_singletons-cdeec3fd.js"
     ],
     "css": [
-      "immutable/assets/pages/quiz.svelte-1652767d.css"
+      "immutable/assets/pages/quiz.svelte-b1b0bd6b.css"
     ]
   },
   "src/routes/result.svelte": {
