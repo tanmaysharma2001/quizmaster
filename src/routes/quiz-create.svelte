@@ -41,7 +41,10 @@
 
     ques.question = question;
 
-    ques.options = options;
+    ques.options[0] = options[0];
+    ques.options[1] = options[1];
+    ques.options[2] = options[2];
+    ques.options[3] = options[3];
 
     ques.type = type;
 
@@ -66,30 +69,31 @@
     console.log(Questions);
   }
 
-  function displayQuestion(question: Question) {
+  function displayQuestion(Ques: Question) {
+
+    console.log(Ques.options[0]);
+
     if (activeID != -1) {
       var currentElement = document
         .getElementById("question" + activeID)
         ?.classList.remove("active");
     }
 
-    activeID = question.questionNumber;
+    activeID = Ques.questionNumber;
 
     document
-      .getElementById("question" + question.questionNumber)
+      .getElementById("question" + Ques.questionNumber)
       ?.classList.add("active");
 
-    document.getElementById("questionTitle").value = question.question;
-    document.getElementById("option1").value = question.options[0];
-    document.getElementById("option2").value = question.options[1];
-    document.getElementById("option3").value = question.options[2];
-    document.getElementById("option4").value = question.options[3];
+    question = Ques.question;
+    options[0] = Ques.options[0];
+    options[1] = Ques.options[1];
+    options[2] = Ques.options[2];
+    options[3] = Ques.options[3];
 
-    document.getElementById("questionType").value = question.type;
-    document.getElementById("questionTime").value =
-      question.timeAlotted.toString();
-    document.getElementById("inputState").selectedIndex =
-      question.correctResponseIndex;
+    type = Ques.type;
+    timeAlotted = Ques.timeAlotted;
+    correctResponseIndex = Ques.correctResponseIndex;
   }
 
   function clearQuestion() {
@@ -100,15 +104,15 @@
       activeID = -1;
     }
 
-    document.getElementById("questionTitle").value = "";
-    document.getElementById("option1").value = "";
-    document.getElementById("option2").value = "";
-    document.getElementById("option3").value = "";
-    document.getElementById("option4").value = "";
+    question = "";
+    options[0] = "";
+    options[1] = "";
+    options[2] = "";
+    options[3] = "";
 
-    document.getElementById("questionType").value = "";
-    document.getElementById("questionTime").value = "";
-    document.getElementById("inputState").selectedIndex = 0;
+    type = "";
+    timeAlotted = 0;
+    correctResponseIndex = 0;
   }
 
   function deleteQuestion() {
@@ -120,23 +124,18 @@
 
   function saveChanges() {
     let index: number = activeID - 1;
-    Questions[index].question = document.getElementById("questionTitle")?.value;
+    Questions[index].question = question;
 
-    let i = 1;
-    for (; i < 5; i++) {
-      let id: string = "option" + i;
+    Questions[index].options[0] = options[0];
+    Questions[index].options[1] = options[1];
+    Questions[index].options[2] = options[2];
+    Questions[index].options[3] = options[3];
 
-      Questions[index].options[i - 1] = document.getElementById(id)?.value;
-    }
+    Questions[index].type = type;
 
-    Questions[index].type = document.getElementById("questionType")?.value;
+    Questions[index].timeAlotted = timeAlotted;
 
-    Questions[index].timeAlotted = Number(
-      document.getElementById("questionTime")?.value
-    );
-
-    Questions[index].correctResponseIndex =
-      document.getElementById("inputState")?.selectedIndex;
+    Questions[index].correctResponseIndex = correctResponseIndex;
 
     Questions = Questions;
   }
