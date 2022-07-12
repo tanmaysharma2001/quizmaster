@@ -18,6 +18,7 @@ module.exports = {
 	rules: {
 		'no-tabs': 0,
 		indent: [2, 'tab'],
-		'@typescript-eslint/no-var-requires': 0
+		'@typescript-eslint/no-var-requires': 0,
+		'no-plusplus': 0
 	}
 };

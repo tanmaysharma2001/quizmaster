@@ -1,13 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import { menuActiveItem } from '$lib/scripts/menu.js';
 	import { onMount } from 'svelte';
-
-	onMount(() => {
-		let menuItems = document.getElementsByClassName('nav-item') as unknown as HTMLElement[];
-		let activeMenuItem = document.title.replace('QuizMaster | ', '');
-		menuActiveItem(menuItems, activeMenuItem);
-	});
 </script>
 
 <svelte:head>
@@ -29,6 +22,7 @@
 
 	<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet" />
 </svelte:head>
+
 <section class="signin">
 	<div class="d1" />
 	<div class="d2" />

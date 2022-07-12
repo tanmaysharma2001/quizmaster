@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { base } from "$app/paths";
-  import { menuActiveItem } from "$lib/scripts/menu.js";
+	import { base } from '$app/paths';
   import { onMount } from "svelte";
-
   import { goto } from "$app/navigation";
 
   import {
@@ -12,16 +10,8 @@
     createUserWithEmailAndPassword,
   } from "firebase/auth";
 
-  var email: string;
-  var password: string;
-
-  onMount(() => {
-    let menuItems = document.getElementsByClassName(
-      "nav-item"
-    ) as unknown as HTMLElement[];
-    let activeMenuItem = document.title.replace("QuizMaster | ", "");
-    menuActiveItem(menuItems, activeMenuItem);
-  });
+  let email: string;
+  let password: string;
 
   function login(a: string) {
     var auth = getAuth();
@@ -77,110 +67,90 @@
     rel="stylesheet"
   />
 </svelte:head>
-<div class="top-container">
-  <div class="login-container">
-    <h3 class="display-4 secondary-header">Login to QuizMaster</h3>
 
-    <div class="login-types-container">
-      <div class="email-login-container">
-        <input
-          bind:value={email}
-          id="email"
-          class="inputs form-control"
-          type="email"
-          placeholder="Your Email"
-        />
-
-        <input
-          bind:value={password}
-          id="password"
-          class="inputs form-control"
-          type="password"
-          placeholder="Your Password"
-        />
-        <!-- <img
-            on:click|preventDefault={loginWithGoogle}
-            src="signin.png"
-            alt="Login with google"
-            height="50px"
-          /> -->
-        <!-- <a href="/quiz-create"> -->
-        <button
-          on:click|preventDefault={() => login("login")}
-          class="btn btn-outline-success login-button">Login</button
-        >
-        <button
-          on:click|preventDefault={() => login("register")}
-          class="btn btn-outline-success login-button">Register</button
-        >
-        <!-- </a> -->
-      </div>
-
-      <div class="guest-container">
-        <h3 class="guest-login-header">Login as Guest</h3>
-
-        <input
-          class="form-control guest-login-text"
-          type="text"
-          placeholder="Enter Game ID"
-        />
-
-        <button class="btn btn-primary guest-button">Play as Guest</button>
-      </div>
-    </div>
-  </div>
-</div>
+<section class="login">
+	<div class="d1" />
+	<div class="d2" />
+	<form>
+		<div class="form-group">
+			<label for="email">Email address</label>
+			<input
+        bind:value={email}
+				type="email"
+				class="form-control"
+				id="email"
+				aria-describedby="emailHelp"
+				placeholder="Enter email"
+			/>
+			<small id="emailHelp" class="form-text text-muted">
+				We'll never share your email with anyone else.
+			</small>
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" class="form-control" id="password" placeholder="Password" bind:value={password} />
+		</div>
+		<!-- Forget your password-->
+		<div class="form-group">
+			<p class="forgetPass">
+				Forgot password? <a href="{base}/forgot-password" class="reset"> Rest your password! </a>
+			</p>
+		</div>
+		<button type="submit" class="btn btn-primary" on:click|preventDefault={() => login("login")} > Submit </button>
+	</form>
+</section>
 
 <style lang="scss">
-  .login {
-    width: 100vw;
-    min-height: calc(100vh - 66px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    line-height: 40px;
-    font-size: 18px;
-    background-color: rgba(245, 245, 245, 0.712);
-    .d1 {
-      width: 500px;
-      height: 500px;
-      background-color: #d8d8d831;
-      position: fixed;
-      top: -166px;
-      right: -166px;
-      transform: rotate(45deg);
-    }
-    .d2 {
-      width: 800px;
-      height: 800px;
-      background-color: #d8d8d831;
-      position: fixed;
-      bottom: -200px;
-      left: -200px;
-      z-index: 0;
-      border-radius: 50%;
-      transform: rotate(-45deg);
-    }
-    form {
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      background-color: white;
-      padding: 20px;
-      border-radius: 5px;
-      z-index: 2;
-      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
-      label {
-        font-weight: bold;
-      }
-      .forgetPass {
-        font-family: Montserrat, sans-serif;
-        font-size: 16px;
-        margin-top: 5px;
-        opacity: 0.7;
-        .reset {
-          color: rgb(20, 161, 117);
-        }
-      }
-    }
-  }
+	.login {
+		width: 100vw;
+		min-height: calc(100vh - 66px);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		line-height: 40px;
+		font-size: 18px;
+		background-color: rgba(245, 245, 245, 0.712);
+		.d1 {
+			width: 500px;
+			height: 500px;
+			background-color: #d8d8d831;
+			position: fixed;
+			top: -166px;
+			right: -166px;
+			transform: rotate(45deg);
+		}
+		.d2 {
+			width: 800px;
+			height: 800px;
+			background-color: #d8d8d831;
+			position: fixed;
+			bottom: -200px;
+			left: -200px;
+			z-index: 0;
+			border-radius: 50%;
+			transform: rotate(-45deg);
+		}
+		form {
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			background-color: white;
+			padding: 20px;
+			border-radius: 5px;
+			z-index: 2;
+			box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+
+			label {
+				font-weight: bold;
+			}
+			.forgetPass {
+				font-family: Montserrat, sans-serif;
+				font-size: 16px;
+				margin-top: 5px;
+				opacity: 0.7;
+				.reset {
+					color: rgb(20, 161, 117);
+				}
+			}
+		}
+	}
 </style>

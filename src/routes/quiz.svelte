@@ -5,7 +5,7 @@
 
 	const auth = getAuth();
 	const user = auth.currentUser;
-	let userEmail;
+	let userEmail: string|null;
 
 	if (user !== null) {
 		userEmail = user.email;
@@ -53,26 +53,26 @@
 		Questions = snapshot.docs.map((doc) => doc.data()) as Question[];
 		// console.log(Questions);
 		// showQuestions(Questions);
-		for (var i = 0; i < Questions.length; i++) {
+		for (let i = 0; i < Questions.length; i++) {
 			correctResponses.push(Questions[i].correctResponseIndex);
 			timeAlotteds.push(Questions[i].timeAlotted);
 		}
 	});
 
 	function showQuestions(Questions: Question[]) {
-		var output = [];
-		var answers;
+		let output = [];
+		let answers;
 
 		console.log(Questions);
 
 		// for each question...
-		for (var i = 0; i < Questions.length; i++) {
+		for (let i = 0; i < Questions.length; i++) {
 			// output.push('<QuestionEle questionNumber={Questions['+i+'].questionNumber} questionTitle={Questions['+i+'].question} options={Questions['+i+'].options} type={Questions['+i+'].type} timeAlotted={Questions['+i+'].timeAlotted} correctResponseIndex={Questions['+i+'].correctResponseIndex} />');
 
 			answers = [];
 
 			// for each available answer to this question...
-			for (var j = 0; j < Questions[i].options.length; j++) {
+			for (let j = 0; j < Questions[i].options.length; j++) {
 				answers.push(
 					'<label>' +
 						'<input type="radio" name="question' +
@@ -100,21 +100,22 @@
 	}
 
 	async function showResults(Questions: Question[]) {
-		var quizContainer = document.getElementById('quiz');
+		let quizContainer = document.getElementById('quiz');
 
-		var answerContainers = quizContainer.querySelectorAll('.answers');
+		let answerContainers = quizContainer!.querySelectorAll('.answers');
 
 		// keep track of user's answers
-		var userAnswer = 0;
-		var numCorrect = 0;
+		let userAnswer = 0;
+		let numCorrect = 0;
 
 		// for each question...
-		for (var i = 0; i < correctResponses.length; i++) {
-			var radios = answerContainers[i].querySelectorAll('.inputs');
-
-			for (var j = 0; j < radios.length; j++) {
-				if (radios[j].checked) {
-					userAnswer = radios[j].value;
+		for (let i = 0; i < correctResponses.length; i++) {
+			let radios = answerContainers[i].querySelectorAll('.inputs');
+			
+			for (let j = 0; j < radios.length; j++) {
+				let item = radios[j] as HTMLInputElement;
+				if (item.checked) {
+					userAnswer = parseInt(item.value);
 					userResponses.push(userAnswer);
 				}
 			}
@@ -140,27 +141,20 @@
 		goto('/result');
 	}
 
-	var timer: string = '';
+	let timer: string = '';
 
 	setTimeout(() => {
-		// console.log("Hellow")
-
-		// console.log(Questions);
-		// console.log(Questions);
-
-		// let b: number = 0;
-
 		for (let i = 0; i < Questions.length; i++) {
 			timeRemaining += Number(Questions[i].timeAlotted) * 60;
 		}
 
 		// console.log(timeRemaining + "----");
 
-		var timerID = setInterval(countdown, 1000);
+		let timerID = setInterval(countdown, 1000);
 
 		function convertToMinutes() {
-			var min = Math.floor(timeRemaining / 60);
-			var seconds = timeRemaining % 60;
+			let min = Math.floor(timeRemaining / 60);
+			let seconds = timeRemaining % 60;
 			let resu = min + ':' + seconds;
 			return resu;
 		}
@@ -196,8 +190,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet" />
 </svelte:head>
 
-<section>
-	<div class="top-container">
+<section class="CreateQuizzes">
+	<div class="container">
 		<div class="row justify-content-between">
 			<div class="col-2"><p>Game ID: {gameID}</p></div>
 			<div class="col-3">
@@ -220,14 +214,13 @@
 		{/each}
 	</div>
 	<div class="buttons-container">
-		<button on:click|preventDefault={showResults} class="result-button btn btn-primary"
+		<button on:click|preventDefault={() => showResults} class="result-button btn btn-primary"
 			>Finish and Show Results</button
 		>
 	</div>
-	<!-- suidskhfjkdshfkjdsh -->
 </section>
 
-<style onload="this.media='all'">
+<style lang="scss">
 	.top-container {
 		margin: 20px 30px;
 		font-size: 20px;

@@ -1,16 +1,6 @@
-<script context="module">
-	export const prerender = true;
-</script>
-
 <script lang="ts">
-	import { menuActiveItem } from '$lib/scripts/menu.js';
 	import { onMount } from 'svelte';
 	import lottieSrc from '$lib/assets/lottie/lottie-message.json?url';
-	onMount(() => {
-		let menuItems = document.getElementsByClassName('nav-item') as unknown as HTMLElement[];
-		let activeMenuItem = document.title.replace('QuizMaster | ', '');
-		menuActiveItem(menuItems, activeMenuItem);
-	});
 </script>
 
 <svelte:head>
