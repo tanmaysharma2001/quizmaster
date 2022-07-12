@@ -24,6 +24,7 @@
   let type:string = "";
   let timeAlotted: number = 0;
   let correctResponseIndex: number = 0;
+  let questionListHeading:string = "Questions List";
 
   async function addQuestion() {
     let ques: Question = {
@@ -179,7 +180,7 @@
 
       <div class="question-container col-md-6">
         <div class="questions-entries">
-          <h1 class="display-4">Questions List</h1>
+          <h1 contenteditable="true" bind:innerHTML={questionListHeading} class="display-4"></h1>
 
           <div class="list-group">
             {#each Questions as ques}
