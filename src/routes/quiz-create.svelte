@@ -170,19 +170,21 @@
   />
 </svelte:head>
 
-<section>
-  <div class="quiz-create-container">
-    <div class="top-container">
+<section class="createQuiz">
+  <div class="d1" />
+	<div class="d2" />
+  <div class="container">
+    <div class="row">
       <!-- Question-Entries -->
 
-      <div class="question-container">
+      <div class="question-container col-md-6">
         <div class="questions-entries">
           <h1 class="display-4">Questions List</h1>
 
           <div class="list-group">
             {#each Questions as ques}
               <button
-                on:click|preventDefault={displayQuestion(ques)}
+                on:click|preventDefault={() => displayQuestion(ques)}
                 id={"question" + ques.questionNumber}
                 type="button"
                 class="list-group-item list-group-item-action"
@@ -207,7 +209,7 @@
 
       <!-- Quiz Form -->
 
-      <div class="quiz-form">
+      <div class="quiz-form row col-md-6">
         <form method="get" class="row g-3 question-form">
           <!-- Question Title -->
           <div class="col-12">
@@ -241,49 +243,43 @@
           </div>
 
           <!-- Type and Time -->
-          <div class="col-md-6">
-            <label for="questionType" class="form-label">Question Type:</label>
+          <div class="col-md-12">
+            <label for="questionType" class="form-label">Question Type</label>
             <input bind:value={type} type="text" class="form-control" id="questionType" />
           </div>
-          <div class="col-md-6">
-            <label for="questionTime" class="form-label"
-              >Time to allot(in minutes):</label
-            >
+          <div class="col-12">
+            <label for="questionTime" class="form-label">Time to allot(in minutes)</label>
             <input bind:value={timeAlotted} type="number" class="form-control" id="questionTime" />
           </div>
 
           <!-- Correct Response -->
-          <div class="col-md-4">
-            <label for="inputState" class="form-label">Correct Response:</label>
+          <div class="col-12">
+            <label for="inputState" class="form-label">Correct Response</label>
             <select bind:value={correctResponseIndex} id="inputState" class="form-select">
               <option selected>Choose...</option>
-              <option value="1" id="1response">1st response</option>
-              <option value="2" id="2response">2nd response</option>
-              <option value="3" id="3response">3rd response</option>
-              <option value="4" id="4response">4th response</option>
+              <option value="1" id="1response">1<sup>st</sup> response</option>
+              <option value="2" id="2response">2<sup>nd</sup> response</option>
+              <option value="3" id="3response">3<sup>rd</sup> response</option>
+              <option value="4" id="4response">4<sup>th</sup> response</option>
             </select>
           </div>
-          <div class="buttons-form col-12">
-            <button
+          <div class="btn-group col-12 row">
+            <button 
               on:click|preventDefault={addQuestion}
               type="submit"
-              class="btn btn-primary">Add Question</button
-            >
+              class="btn btn-primary col-sm-6">Add Question</button>
             <button
               on:click|preventDefault={clearQuestion}
               type="submit"
-              class="btn btn-primary">Clear Question</button
-            >
+              class="btn btn-primary col-sm-6">Clear Question</button>
             <button
               on:click|preventDefault={deleteQuestion}
               type="submit"
-              class="btn btn-primary">Delete This Question</button
-            >
+              class="btn btn-primary btn-block">Delete This Question</button>
             <button
               on:click|preventDefault={saveChanges}
               type="submit"
-              class="btn btn-primary">Save Changes</button
-            >
+              class="btn btn-primary col-sm-6">Save Changes</button>
           </div>
         </form>
       </div>
@@ -291,52 +287,78 @@
   </div>
 </section>
 
-<style>
-  .top-container {
-    width: 100%;
-    height: 100vh;
-    /* background-color: purple; */
-    display: flex;
-    /* padding-right: 150px; */
-  }
-
-  .top-container > div {
-    margin-right: 150px;
-    margin-left: 50px;
-    margin-top: 40px;
-    padding: 10px;
-  }
-
-  .buttons {
-    text-align: center;
-    margin: 40px;
-  }
-
-  .buttons-form {
-    text-align: center;
-  }
-
-  .question-container {
-    /* border: 1px solid; */
-    width: 530px;
-    height: 600px;
-  }
-
-  .questions-entries {
-    overflow: scroll;
-    width: 450px;
-    /* border: 1px solid; */
-    height: 500px;
-  }
-
-  .quiz-form {
-    /* border: 5px solid green; */
-    border-radius: 10px;
-    background-color: #9dd4ad;
-    width: 700px;
-    height: 500px;
-    /* margin: auto; */
-    /* margin-top: 40px; */
-    /* padding: 10px; */
+<style lang="scss">
+  .createQuiz{
+		width: 100vw;
+		min-height: calc(100vh - 66px);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		line-height: 40px;
+		font-size: 18px;
+		background-color: rgba(245, 245, 245, 0.712);
+		.d1 {
+			width: 500px;
+			height: 500px;
+			background-color: #d8d8d831;
+			position: fixed;
+			top: -166px;
+			right: -166px;
+			transform: rotate(45deg);
+		}
+		.d2 {
+			width: 800px;
+			height: 800px;
+			background-color: #d8d8d831;
+			position: fixed;
+			bottom: -200px;
+			left: -200px;
+			z-index: 0;
+			border-radius: 50%;
+			transform: rotate(-45deg);
+		}
+    .row{
+      margin: 0px !important;
+      justify-content: space-between !important;
+    }
+    .container{
+      position: relative;
+      line-height: 40px;
+      form{
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        z-index: 2;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+        min-width: 300px;
+        display: flex;
+        
+        label {
+          font-size: 15px;
+          font-family: Montserrat;
+          font-weight: bold;
+          margin-bottom: 0px;
+        }
+        input{
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 2px;
+          padding: 5px;
+          margin-bottom: 5px;
+        }
+        .btn-group{
+          margin-top: 20px !important;
+        }
+        .btn{
+          border: 2px solid white !important;
+          border-radius: 0px !important;
+          height: 50px;
+          font-size: 13px;
+          font-family: Montserrat;
+        }
+      }
+    }
+    
   }
 </style>
