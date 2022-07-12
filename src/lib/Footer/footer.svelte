@@ -25,6 +25,7 @@
 		align-items: center;
 		background-color: rgba(0, 0, 0, 0.95);
 		z-index: 2;
+    }
 		p {
 			color: white;
 			text-align: center;
@@ -32,5 +33,4 @@
 			padding: 10px;
 			margin: 0px;
 		}
-	}
 </style>
