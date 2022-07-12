@@ -71,8 +71,6 @@
 
   function displayQuestion(Ques: Question) {
 
-    console.log(Ques.options[0]);
-
     if (activeID != -1) {
       var currentElement = document
         .getElementById("question" + activeID)
