@@ -1,2 +1,2 @@
-# quizmaster
+#Quizmaster
 QuizMaster: Create Quizzes
