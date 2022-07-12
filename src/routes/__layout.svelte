@@ -1,9 +1,11 @@
 <script lang="ts">
 	import Navbar from '$lib/Header/Navbar.svelte';
 	import Footer from '$lib/Footer/footer.svelte';
-
 	import { initializeApp } from 'firebase/app';
-
+	import { onMount } from 'svelte';
+	import { getAuth, onAuthStateChanged } from 'firebase/auth';
+	import { goto } from '$app/navigation';
+	
 	const firebaseConfig = {
 		apiKey: 'AIzaSyCU9srkKV3Mf52D6wmLtuuaNE_xRgJVKFA',
 		authDomain: 'quizmaster-2.firebaseapp.com',
@@ -12,14 +14,7 @@
 		messagingSenderId: '1073865854546',
 		appId: '1:1073865854546:web:73df54aed493b0678dd98b'
 	};
-
 	const app = initializeApp(firebaseConfig);
-
-	// import App from './fb.js';
-	import { onMount } from 'svelte';
-	import { getAuth, onAuthStateChanged } from 'firebase/auth';
-	import { goto } from '$app/navigation';
-	// import { isLoggedIn } from './stores/authStore';
 
 	onMount(() => {
 		const auth = getAuth();
@@ -33,6 +28,7 @@
 			}
 		});
 	});
+
 </script>
 
 <Navbar />
@@ -43,5 +39,12 @@
 
 <Footer />
 
-<style>
+<style lang="scss">
+	:global(body) {
+		margin: 0;
+		padding: 0;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 16px;
+		background-color: #fff;
+	}
 </style>

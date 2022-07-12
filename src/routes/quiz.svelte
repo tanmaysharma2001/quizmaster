@@ -6,7 +6,7 @@
 	const auth = getAuth();
 	const user = auth.currentUser;
 	let userEmail: string|null;
-
+	let questionNum = 1;
 	if (user !== null) {
 		userEmail = user.email;
 	}
@@ -191,71 +191,68 @@
 </svelte:head>
 
 <section class="CreateQuizzes">
-	<div class="container">
-		<div class="row justify-content-between">
-			<div class="col-2"><p>Game ID: {gameID}</p></div>
-			<div class="col-3">
-				<p contenteditable="true" bind:textContent={timer} id="timer" style="text-align: right" />
-			</div>
+	<div class="row justify-content-between quizHeader">
+		<div class="col-6"><p>Game ID: {gameID}</p></div>
+		<div class="col-6">
+			<p contenteditable="true" bind:textContent={timer} id="timer" style="text-align: right" />
 		</div>
 	</div>
-
 	<div id="quiz" class="quiz">
-		{#each Questions as Ques}
-			<p style="text-align:center">Question {Ques.questionNumber} out of {Questions.length}</p>
-			<QuestionEle
-				questionNumber={Ques.questionNumber}
-				questionTitle={Ques.question}
-				options={Ques.options}
-				type={Ques.type}
-				timeAlotted={Ques.timeAlotted}
-				correctResponseIndex={Ques.correctResponseIndex}
-			/>
+		{#each Questions as Ques, i}
+		    <div class="q col-md-8">
+				<p class="header"> Question {questionNum+i} out of {Questions.length}</p>
+				<QuestionEle
+					questionNumber={Ques.questionNumber}
+					questionTitle={Ques.question}
+					options={Ques.options}
+					type={Ques.type}
+					timeAlotted={Ques.timeAlotted}
+					correctResponseIndex={Ques.correctResponseIndex}/>
+			</div>
 		{/each}
 	</div>
-	<div class="buttons-container">
-		<button on:click|preventDefault={() => showResults} class="result-button btn btn-primary"
+	<button on:click|preventDefault={() => showResults} class="result-button btn btn-primary"
 			>Finish and Show Results</button
 		>
-	</div>
 </section>
 
 <style lang="scss">
-	.top-container {
-		margin: 20px 30px;
-		font-size: 20px;
-		font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-		/* text-align: center; */
-	}
-
-	section {
-		margin-top: 0px;
-		width: 100%;
-		height: 90vh;
-		font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-		/* text-align: center; */
-	}
-
-	.quiz {
-		margin: auto;
-		/* text-align: center; */
-	}
-
-	.question-part {
-		/* text-align: center; */
-		margin: 100px 300px;
-		/* float: right; */
-	}
-
-	.buttons-container {
-		margin: 20px;
-		text-align: center;
-	}
-
-	.result-button {
-		height: 50px;
-		width: 200px;
-		padding: 10px;
-		border-radius: 40px;
+	.CreateQuizzes{
+		margin: 0 auto;
+		width: 100vw;
+		min-height: 100vh;
+		font-family: Montserrat;
+		position: relative;
+		.quizHeader{
+			width: 100vw;
+			background-color: black;
+			color: white;
+			padding: 10px;
+			margin: 0px;
+			margin-bottom: 20px;
+			position: sticky;
+			top: 0;
+			z-index: 20;
+		}
+		.quiz{
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: center;
+			align-items: center;
+			.q{
+				margin: 20px 0px;	
+				background-color: rgba(212, 212, 212, 0.438);
+				padding: 20px;
+				border-radius: 3px;
+				.header{
+					font-size: 0.75rem;
+					font-weight: 100;
+				}
+			}
+		}
+		.result-button{
+			display: block;
+			margin: 30px auto;
+		}
 	}
 </style>
