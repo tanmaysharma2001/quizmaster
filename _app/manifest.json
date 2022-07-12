@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "immutable/start-790adfb8.js",
+    "file": "immutable/start-35b90d77.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -138,7 +138,7 @@
     ]
   },
   "src/routes/quiz-create.svelte": {
-    "file": "immutable/pages/quiz-create.svelte-09f6d70a.js",
+    "file": "immutable/pages/quiz-create.svelte-2c55090f.js",
     "src": "src/routes/quiz-create.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
