@@ -211,7 +211,7 @@
 			</div>
 		{/each}
 	</div>
-	<button on:click|preventDefault={() => showResults} class="result-button btn btn-primary"
+	<button on:click|preventDefault={showResults} class="result-button btn btn-primary"
 			>Finish and Show Results</button
 		>
 </section>

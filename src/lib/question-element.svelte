@@ -46,7 +46,7 @@
 						class="inputs form-check-input"
 						type="radio"
 						name={'question' + questionNumber}
-						value={indexOf(opn)}
+						value={options.indexOf(opn)}
 					/>
 					<label class="form-check-label" for="flexRadioDefault1">{opn}</label>
 				</div>
