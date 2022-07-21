@@ -9,12 +9,16 @@ const config = {
 	// for more information about preprocessors
 	preprocess: preprocess(),
 
-	paths: {
-		base: dev ? '' : '/quizmaster'
-	},
-
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+
+		prerender: {
+			default: false,
+		},
+
+		paths: {
+			base: dev ? '' : '/quizmaster'
+		},
 	}
 };
 
