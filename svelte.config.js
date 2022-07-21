@@ -12,10 +12,6 @@ const config = {
 	kit: {
 		adapter: adapter(),
 
-		prerender: {
-			default: false,
-		},
-
 		paths: {
 			base: dev ? '' : '/quizmaster'
 		},
