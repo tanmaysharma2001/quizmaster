@@ -1,2 +1,0 @@
-# Quizmaster
-QuizMaster: Create Quizzes

@@ -71,7 +71,7 @@
 			</li>
 
 			<li class="nav-item loginItem">
-				<a class="nav-link" on:click|preventDefault={logout} href="{base}/login">Login</a>
+				<a id="login-button" class="nav-link" on:click|preventDefault={logout} href="{base}/login">Login</a>
 			</li>
 
 			<li class="nav-item joinItem">
@@ -99,7 +99,7 @@
 				<a class="nav-link" href="{base}/contact">Contact</a>
 			</li>
 			<li class="nav-item loginItem">
-				<a class="nav-link" on:click|preventDefault={logout} href="{base}/login">Login</a>
+				<a id="login-button" class="nav-link" on:click|preventDefault={logout} href="{base}/login">Login</a>
 			</li>
 			<li class="nav-item joinItem">
 				<a class="nav-link" href="{base}/joinus">Join us</a>

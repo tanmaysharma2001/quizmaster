@@ -1,15 +1,34 @@
 <script lang="ts">
 	import { getFirestore, getDocs, collection, addDoc } from 'firebase/firestore';
 	import { onMount } from 'svelte';
-	import { getAuth } from 'firebase/auth';
+	// import { getAuth } from 'firebase/auth';
+	import { base } from '$app/paths';
+	import { goto } from '$app/navigation';
+	// import { goto } from '$app/navigation';
 
 	const auth = getAuth();
 	const user = auth.currentUser;
-	let userEmail: string|null;
+	let userEmail: string | null;
 	let questionNum = 1;
 	if (user !== null) {
 		userEmail = user.email;
+		// console.log(userEmail);
 	}
+
+	import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+	import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
+
+	// var auth = getAuth();
+	onAuthStateChanged(auth, (user) => {
+		console.log('changed!');
+		if (user) {
+			const uid = user.uid;
+			var loginEle = document.getElementById('login-button');
+			loginEle.innerHTML = 'Sign Out';
+		} else {
+			goto('/login');
+		}
+	});
 
 	let currentIndex: number = 0;
 
@@ -42,7 +61,6 @@
 	let submitButton = '';
 
 	import QuestionEle from '$lib/question-element.svelte';
-	import { goto } from '$app/navigation';
 
 	let userResponses: number[] = [];
 
@@ -73,36 +91,22 @@
 
 			// for each available answer to this question...
 			for (let j = 0; j < Questions[i].options.length; j++) {
-				answers.push(
-					'<label>' +
-						'<input type="radio" name="question' +
-						i +
-						'" value="' +
-						j +
-						'">' +
-						j +
-						': ' +
-						Questions[i].options[j] +
-						'</label>'
-				);
+				answers.push('<label>' + '<input type="radio" name="question' + i + '" value="' + j + '">' + j + ': ' + Questions[i].options[j] + '</label>');
 			}
 
-			output.push(
-				'<div class="question">' +
-					Questions[i].question +
-					'</div>' +
-					'<div class="answers">' +
-					answers.join('') +
-					'</div>'
-			);
+			output.push('<div class="question">' + Questions[i].question + '</div>' + '<div class="answers">' + answers.join('') + '</div>');
 		}
 		questionsElements = output.join('');
 	}
 
 	async function showResults(Questions: Question[]) {
+		console.log('Hello World!');
+
 		let quizContainer = document.getElementById('quiz');
 
 		let answerContainers = quizContainer!.querySelectorAll('.answers');
+
+		console.log(answerContainers);
 
 		// keep track of user's answers
 		let userAnswer = 0;
@@ -111,11 +115,13 @@
 		// for each question...
 		for (let i = 0; i < correctResponses.length; i++) {
 			let radios = answerContainers[i].querySelectorAll('.inputs');
-			
+
+			console.log(radios);
+
 			for (let j = 0; j < radios.length; j++) {
 				let item = radios[j] as HTMLInputElement;
 				if (item.checked) {
-					userAnswer = parseInt(item.value);
+					userAnswer = parseInt(item.value) + 1;
 					userResponses.push(userAnswer);
 				}
 			}
@@ -131,6 +137,9 @@
 
 		const db = getFirestore();
 		const results = collection(db, 'results');
+
+		console.log(userEmail);
+
 		const newResult = await addDoc(results, {
 			userEmail,
 			userScore
@@ -173,19 +182,11 @@
 <svelte:head>
 	<title>Quiz Page</title>
 
-	<link
-		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-		rel="stylesheet"
-		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-		crossorigin="anonymous"
-	/>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
 
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" />
-	<link
-		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
-		rel="stylesheet"
-	/>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
 	<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet" />
 </svelte:head>
@@ -199,31 +200,23 @@
 	</div>
 	<div id="quiz" class="quiz">
 		{#each Questions as Ques, i}
-		    <div class="q col-md-8">
-				<p class="header"> Question {questionNum+i} out of {Questions.length}</p>
-				<QuestionEle
-					questionNumber={Ques.questionNumber}
-					questionTitle={Ques.question}
-					options={Ques.options}
-					type={Ques.type}
-					timeAlotted={Ques.timeAlotted}
-					correctResponseIndex={Ques.correctResponseIndex}/>
+			<div class="q col-md-8">
+				<p class="header">Question {questionNum + i} out of {Questions.length}</p>
+				<QuestionEle questionNumber={Ques.questionNumber} questionTitle={Ques.question} options={Ques.options} type={Ques.type} timeAlotted={Ques.timeAlotted} correctResponseIndex={Ques.correctResponseIndex} />
 			</div>
 		{/each}
 	</div>
-	<button on:click|preventDefault={showResults} class="result-button btn btn-primary"
-			>Finish and Show Results</button
-		>
+	<button on:click|preventDefault={showResults} class="result-button btn btn-primary">Finish and Show Results</button>
 </section>
 
 <style lang="scss">
-	.CreateQuizzes{
+	.CreateQuizzes {
 		margin: 0 auto;
 		width: 100vw;
 		min-height: 100vh;
 		font-family: Montserrat;
 		position: relative;
-		.quizHeader{
+		.quizHeader {
 			width: 100vw;
 			background-color: black;
 			color: white;
@@ -234,23 +227,23 @@
 			top: 0;
 			z-index: 20;
 		}
-		.quiz{
+		.quiz {
 			display: flex;
 			flex-flow: row wrap;
 			justify-content: center;
 			align-items: center;
-			.q{
-				margin: 20px 0px;	
+			.q {
+				margin: 20px 0px;
 				background-color: rgba(212, 212, 212, 0.438);
 				padding: 20px;
 				border-radius: 3px;
-				.header{
+				.header {
 					font-size: 0.75rem;
 					font-weight: 100;
 				}
 			}
 		}
-		.result-button{
+		.result-button {
 			display: block;
 			margin: 30px auto;
 		}

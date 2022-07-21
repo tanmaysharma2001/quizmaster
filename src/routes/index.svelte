@@ -1,4 +1,6 @@
 <script lang="ts">
+  import {base} from "$app/paths";
+
     import lottieSrc from '$lib/assets/lottie/lottie-home.json?url';
   
       // typeWriter effect
@@ -79,7 +81,7 @@
       Welcome to the <br> Quiz<span id="intro-heading-master-span">Master</span>
     </h1>
     <p class="intro-paragraph" bind:this={type_effect}></p>
-    <a href="/login" class="btn btn-primary get-started-button" >Get Started! </a>
+    <a href="{base}/login" class="btn btn-primary get-started-button" >Get Started! </a>
   </div>
   <div class="lottieHome">
     <lottie-player src={ lottieSrc } loop nocontrols autoplay></lottie-player>

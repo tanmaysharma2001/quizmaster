@@ -1,24 +1,63 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+
+	import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+
+	let email: string;
+	let password: string;
+	let username: string;
+
+	function login(a: string) {
+		var auth = getAuth();
+		// onAuthStateChanged(auth, (user) => {
+		// 	console.log('changed!');
+		// 	if (user) {
+		// 		const uid = user.uid;
+		// 	}
+		// 	else {
+		// 		goto('/login');
+		// 	}
+		// });
+		if (a == 'login') {
+			signInWithEmailAndPassword(auth, email, password)
+				.then((userCredential) => {
+					const user = userCredential.user;
+					localStorage.setItem('uid', user.uid);
+					alert('Signin Successfully. User id: ' + user.uid);
+					goto('/quiz-create');
+				})
+				.catch((error) => {
+					const errorCode = error.code;
+					const errorMessage = error.message;
+					alert(errorCode + ' ' + errorMessage);
+				});
+		} else {
+			createUserWithEmailAndPassword(auth, email, password)
+				.then((userCredential) => {
+					const user = userCredential.user;
+					localStorage.setItem('uid', user.uid);
+					alert('User Created successfully!');
+					goto('/quiz-create');
+				})
+				.catch((error) => {
+					const errorCode = error.code;
+					const errorMessage = error.message;
+					alert(errorCode + ' ' + errorMessage);
+				});
+		}
+	}
 </script>
 
 <svelte:head>
 	<title>QuizMaster | Join Us</title>
 
-	<link
-		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-		rel="stylesheet"
-		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-		crossorigin="anonymous"
-	/>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
 
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" />
-	<link
-		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
-		rel="stylesheet"
-	/>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
 	<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet" />
 </svelte:head>
@@ -29,7 +68,7 @@
 	<form>
 		<div class="form-group">
 			<label for="email">Name</label>
-			<input type="text" class="form-control" id="firstname" placeholder="First name" />
+			<input bind:value={username} type="text" class="form-control" id="firstname" placeholder="First name" />
 			<input type="text" class="form-control" id="lastname" placeholder="Last name" />
 		</div>
 		<div class="form-group">
@@ -42,37 +81,22 @@
 		</div>
 		<div class="form-group">
 			<label for="email">Email address</label>
-			<input
-				type="email"
-				class="form-control"
-				id="email"
-				aria-describedby="emailHelp"
-				placeholder="Enter email"
-			/>
-			<small id="emailHelp" class="form-text text-muted">
-				We'll never share your email with anyone else.
-			</small>
+			<input bind:value={email} type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
+			<small id="emailHelp" class="form-text text-muted"> We'll never share your email with anyone else. </small>
 			<div class="form-group">
 				<label for="password">Password</label>
-				<input type="password" class="form-control" id="password" placeholder="Password" />
+				<input bind:value={password} type="password" class="form-control" id="password" placeholder="Password" />
 			</div>
 			<div class="form-group">
 				<label for="repassword">Confirm password</label>
-				<input
-					type="password"
-					class="form-control"
-					id="repassword"
-					placeholder="Rewrite your password"
-				/>
+				<input type="password" class="form-control" id="repassword" placeholder="Rewrite your password" />
 			</div>
 
 			<div class="form-group form-check">
 				<input type="checkbox" class="form-check-input" id="exampleCheck1" />
-				<a class="form-check-label" for="exampleCheck1" href="{base}/agreement"
-					>I read the privacy agreement!</a
-				>
+				<a class="form-check-label" for="exampleCheck1" href="{base}/agreement">I read the privacy agreement!</a>
 			</div>
-			<button type="submit" class="btn btn-primary">Sign Up</button>
+			<button on:click|preventDefault={() => login('signup')} type="submit" class="btn btn-primary">Sign Up</button>
 		</div>
 	</form>
 </section>

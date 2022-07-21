@@ -1,71 +1,69 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-  import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 
-  import {
-    getAuth,
-    onAuthStateChanged,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-  } from "firebase/auth";
+	import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+	import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 
-  let email: string;
-  let password: string;
+	const provider = new GoogleAuthProvider();
 
-  function login(a: string) {
-    var auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      console.log("changed!");
-      if (user) {
-        goto("/quiz-create");
-      }
-    });
-    if (a == "login") {
-      signInWithEmailAndPassword(auth, email, password).then(
-        (userCredential) => {
-          try {
-            const user = userCredential.user;
-            localStorage.setItem("uid", user.uid);
-            goto("/quiz-create");
-          } catch (e) {
-            console.log(e);
-          }
-        }
-      );
-    } else {
-      createUserWithEmailAndPassword(auth, email, password).then(
-        (userCredential) => {
-          const user = userCredential.user;
-          localStorage.setItem("uid", user.uid);
-          goto("/quiz-create");
-        }
-      );
-    }
-  }
+	let email: string;
+	let password: string;
+
+	const auth = getAuth();
+
+	function login(a: string) {
+		var auth = getAuth();
+		onAuthStateChanged(auth, (user) => {
+			console.log('changed!');
+			if (user) {
+				const uid = user.uid;
+			} else {
+				var loginEle = document.getElementById('login-button');
+				loginEle.innerHTML = 'Login';
+				goto('/login');
+			}
+		});
+		if (a == 'login') {
+			signInWithEmailAndPassword(auth, email, password)
+				.then((userCredential) => {
+					const user = userCredential.user;
+					localStorage.setItem('uid', user.uid);
+					alert('Signin Successfully. User id: ' + user.uid);
+					goto('/quiz-create');
+				})
+				.catch((error) => {
+					const errorCode = error.code;
+					const errorMessage = error.message;
+					alert(errorCode + ' ' + errorMessage);
+				});
+		} else {
+			createUserWithEmailAndPassword(auth, email, password)
+				.then((userCredential) => {
+					const user = userCredential.user;
+					localStorage.setItem('uid', user.uid);
+					alert('User added successfully!');
+				})
+				.catch((error) => {
+					const errorCode = error.code;
+					const errorMessage = error.message;
+					alert(errorCode + ' ' + errorMessage);
+				});
+		}
+	}
 </script>
 
 <svelte:head>
-  <title>QuizMaster | Login</title>
+	<title>QuizMaster | Login</title>
 
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-    crossorigin="anonymous"
-  />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" />
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap"
-    rel="stylesheet"
-  />
+	<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet" />
 </svelte:head>
 
 <section class="login">
@@ -74,17 +72,8 @@
 	<form>
 		<div class="form-group">
 			<label for="email">Email address</label>
-			<input
-        bind:value={email}
-				type="email"
-				class="form-control"
-				id="email"
-				aria-describedby="emailHelp"
-				placeholder="Enter email"
-			/>
-			<small id="emailHelp" class="form-text text-muted">
-				We'll never share your email with anyone else.
-			</small>
+			<input bind:value={email} type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
+			<small id="emailHelp" class="form-text text-muted"> We'll never share your email with anyone else. </small>
 		</div>
 		<div class="form-group">
 			<label for="password">Password</label>
@@ -96,11 +85,18 @@
 				Forgot password? <a href="{base}/forgot-password" class="reset"> Rest your password! </a>
 			</p>
 		</div>
-		<button type="submit" class="btn btn-primary" on:click|preventDefault={() => login("login")} > Submit </button>
+		<button type="submit" class="btn btn-primary" on:click|preventDefault={() => login('login')}> Login </button>
 	</form>
 </section>
 
 <style lang="scss">
+	#login-google-img {
+		height: 45px;
+		width: 180px;
+		cursor: pointer;
+		margin-left: 90px;
+	}
+
 	.login {
 		width: 100vw;
 		min-height: calc(100vh - 66px);
