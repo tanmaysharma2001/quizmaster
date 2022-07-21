@@ -1078,4 +1078,4 @@ import{c as O}from"./singletons-cdeec3fd.js";import{a as Pt,b as Nt,_ as De,C as
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */function Hi(n=Ut()){const e=Ze(n,"auth");return e.isInitialized()?e.getImmediate():qt(n,{popupRedirectResolver:Pi,persistence:[Wn,bn,wt]})}Li("Browser");export{Ui as a,xi as b,Fi as c,Hi as g,Wi as o,Vi as s};
+ */function Hi(n=Ut()){const e=Ze(n,"auth");return e.isInitialized()?e.getImmediate():qt(n,{popupRedirectResolver:Pi,persistence:[Wn,bn,wt]})}Li("Browser");export{E as G,Ui as a,xi as b,Fi as c,Hi as g,Wi as o,Vi as s};
