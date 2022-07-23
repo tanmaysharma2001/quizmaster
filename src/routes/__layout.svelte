@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 	import { getAuth, onAuthStateChanged } from 'firebase/auth';
 	import { goto } from '$app/navigation';
-	
+
 	const firebaseConfig = {
 		apiKey: 'AIzaSyCU9srkKV3Mf52D6wmLtuuaNE_xRgJVKFA',
 		authDomain: 'quizmaster-2.firebaseapp.com',
@@ -24,11 +24,13 @@
 				// isLoggedIn.update(() => true);
 			} else {
 				// isLoggedIn.update(() => false);
-				goto('/');
+				return {
+					status: 302,
+					redirect: '{base}'
+				};
 			}
 		});
 	});
-
 </script>
 
 <Navbar />
