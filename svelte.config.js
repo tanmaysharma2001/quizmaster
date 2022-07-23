@@ -10,10 +10,7 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter({
-			pages: 'docs',
-			assets: 'docs'
-		}),
+		adapter: adapter(),
 
 		prerender: {
 			default: true
