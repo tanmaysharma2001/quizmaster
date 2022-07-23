@@ -17,7 +17,10 @@
 			var loginEle = document.getElementById('login-button');
 			loginEle.innerHTML = 'Sign Out';
 		} else {
-			goto('/login');
+			return {
+				status: 302,
+				redirect: '/login'
+			}
 		}
 	});
 
@@ -196,7 +199,7 @@
 
 				<div class="buttons">
 					<button on:click|preventDefault={clearQuestionList} type="submit" class="btn btn-primary">Clear Questions List</button>
-					<a href="/quiz">
+					<a href="{base}/quiz">
 						<button type="submit" class="btn btn-primary">Start the Quiz</button>
 					</a>
 				</div>

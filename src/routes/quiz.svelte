@@ -18,7 +18,6 @@
 	import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 	import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 
-	// var auth = getAuth();
 	onAuthStateChanged(auth, (user) => {
 		console.log('changed!');
 		if (user) {
@@ -26,7 +25,10 @@
 			var loginEle = document.getElementById('login-button');
 			loginEle.innerHTML = 'Sign Out';
 		} else {
-			goto('/login');
+			return {
+				status: 302,
+				redirect: '/login'
+			};
 		}
 	});
 
@@ -147,7 +149,10 @@
 
 		alert(numCorrect);
 
-		goto('/result');
+		return {
+			status: 302,
+			redirect: '/result'
+		};
 	}
 
 	let timer: string = '';

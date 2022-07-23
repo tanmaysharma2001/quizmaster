@@ -22,7 +22,9 @@
 			} else {
 				var loginEle = document.getElementById('login-button');
 				loginEle.innerHTML = 'Login';
-				goto('/login');
+				$: if (browser) {
+					goto('/login');
+				}
 			}
 		});
 		if (a == 'login') {

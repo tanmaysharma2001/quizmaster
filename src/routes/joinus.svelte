@@ -26,7 +26,10 @@
 					const user = userCredential.user;
 					localStorage.setItem('uid', user.uid);
 					alert('Signin Successfully. User id: ' + user.uid);
-					goto('/quiz-create');
+					return {
+						status: 302,
+						redirect: '{base}/quiz-create'
+					};
 				})
 				.catch((error) => {
 					const errorCode = error.code;
@@ -39,7 +42,10 @@
 					const user = userCredential.user;
 					localStorage.setItem('uid', user.uid);
 					alert('User Created successfully!');
-					goto('/quiz-create');
+					return {
+						status: 302,
+						redirect: '{base}/quiz-create'
+					};
 				})
 				.catch((error) => {
 					const errorCode = error.code;
@@ -94,7 +100,7 @@
 
 			<div class="form-group form-check">
 				<input type="checkbox" class="form-check-input" id="exampleCheck1" />
-				<a class="form-check-label" for="exampleCheck1" href="{base}/agreement">I read the privacy agreement!</a>
+				<a class="form-check-label" for="exampleCheck1">I read the privacy agreement!</a>
 			</div>
 			<button on:click|preventDefault={() => login('signup')} type="submit" class="btn btn-primary">Sign Up</button>
 		</div>
