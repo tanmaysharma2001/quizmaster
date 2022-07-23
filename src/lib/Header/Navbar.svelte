@@ -38,7 +38,7 @@
 				localStorage.removeItem('uid');
 				return {
 					status: 302,
-					redirect: '/login'
+					redirect: '{base}/login'
 				};
 			})
 			.catch((error) => {
