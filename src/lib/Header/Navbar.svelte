@@ -58,10 +58,10 @@
 
 <section class="header">
 	<div class="navbar">
-		<a class="navbar-brand" href={base}> QuizMaster </a>
+		<a class="navbar-brand" href="{base}"> QuizMaster </a>
 		<ul class="navIcons">
 			<li class="nav-item active">
-				<a class="nav-link" aria-current="page" href="{base}/">Home</a>
+				<a class="nav-link" aria-current="page" href="{base}">Home</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="{base}/about">About</a>
@@ -84,13 +84,13 @@
 	</div>
 
 	<div class="mobile-menu" bind:this={mobileMenu}>
-		<a class="navbar-brand" href="{base}/"> QuizMaster </a>
+		<a class="navbar-brand" href="{base}"> QuizMaster </a>
 		<div class="close" on:click={closeMenu}>
 			<img src={close_src} alt="close" class="closeIcon" />
 		</div>
 		<ul class="m-navIcons">
 			<li class="nav-item">
-				<a class="nav-link" aria-current="page" href="{base}/">Home</a>
+				<a class="nav-link" aria-current="page" href="{base}">Home</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="{base}/about">About</a>

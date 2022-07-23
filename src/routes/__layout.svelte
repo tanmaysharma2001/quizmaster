@@ -16,21 +16,21 @@
 	};
 	const app = initializeApp(firebaseConfig);
 
-	// onMount(() => {
-	// 	const auth = getAuth();
-	// 	onAuthStateChanged(auth, (user) => {
-	// 		if (user) {
-	// 			console.log('Welcome to QuizMaster!');
-	// 			// isLoggedIn.update(() => true);
-	// 		} else {
-	// 			// isLoggedIn.update(() => false);
-	// 			return {
-	// 				status: 302,
-	// 				redirect: '{base}/'
-	// 			};
-	// 		}
-	// 	});
-	// });
+	onMount(() => {
+		const auth = getAuth();
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+				console.log('Welcome to QuizMaster!');
+				// isLoggedIn.update(() => true);
+			} else {
+				// isLoggedIn.update(() => false);
+				return {
+					status: 302,
+					redirect: '{base}'
+				};
+			}
+		});
+	});
 </script>
 
 <Navbar />

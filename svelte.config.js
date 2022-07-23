@@ -10,15 +10,22 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({
+			pages: 'docs',
+			assets: 'docs'
+		}),
 
 		prerender: {
-			default: true,
+			default: true
 		},
 
 		paths: {
 			base: dev ? '' : '/quizmaster',
 		},
+
+		methodOverride: {
+			allowed: ['PATCH', 'DELETE']
+		}
 	}
 };
 
