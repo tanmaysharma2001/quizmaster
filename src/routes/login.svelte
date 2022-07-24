@@ -22,9 +22,10 @@
 			} else {
 				var loginEle = document.getElementById('login-button');
 				loginEle.innerHTML = 'Login';
-				$: if (browser) {
-					goto('/login');
-				}
+				return {
+					status: 302,
+					redirect: '{base}/login'
+				};
 			}
 		});
 		if (a == 'login') {
@@ -33,7 +34,7 @@
 					const user = userCredential.user;
 					localStorage.setItem('uid', user.uid);
 					alert('Signin Successfully. User id: ' + user.uid);
-					goto('/quiz-create');
+					goto('quizmaster/quiz-create');
 				})
 				.catch((error) => {
 					const errorCode = error.code;

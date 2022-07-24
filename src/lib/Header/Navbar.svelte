@@ -71,7 +71,7 @@
 			</li>
 
 			<li class="nav-item loginItem">
-				<a id="login-button" class="nav-link" on:click|preventDefault={logout} href="{base}/login">Login</a>
+				<a id="login-button" class="nav-link" on:click={logout} href="{base}/login">Login</a>
 			</li>
 
 			<li class="nav-item joinItem">
