@@ -149,10 +149,7 @@
 
 		alert(numCorrect);
 
-		return {
-			status: 302,
-			redirect: '/result'
-		};
+		goto('result');
 	}
 
 	let timer: string = '';

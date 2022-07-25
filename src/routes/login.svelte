@@ -34,7 +34,7 @@
 					const user = userCredential.user;
 					localStorage.setItem('uid', user.uid);
 					alert('Signin Successfully. User id: ' + user.uid);
-					goto('quizmaster/quiz-create');
+					goto('quiz-create');
 				})
 				.catch((error) => {
 					const errorCode = error.code;

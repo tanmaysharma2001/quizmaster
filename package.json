@@ -33,6 +33,7 @@
 		"eslint-import-resolver-typescript": "^3.2.5",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"firebase": "^9.9.0",
+		"gh-pages": "^4.0.0",
 		"jest": "^28.1.2",
 		"jest-transform-stub": "^2.0.0",
 		"prettier": "^2.6.2",

@@ -83,7 +83,7 @@
 				<div class="card col-md">
 					<div class="card-body">
 						<h5 class="card-title">Tanmay Sharma</h5>
-						<p class="card-text">Front-end Web developer.</p>
+						<p class="card-text">Front-end Web & Back-end Web developer.</p>
 						<div class="socialMediaLinks">
 							<a href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin" /></a>
 							<a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram" /></a

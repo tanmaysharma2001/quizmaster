@@ -26,10 +26,7 @@
 					const user = userCredential.user;
 					localStorage.setItem('uid', user.uid);
 					alert('Signin Successfully. User id: ' + user.uid);
-					return {
-						status: 302,
-						redirect: '{base}/quiz-create'
-					};
+					goto('quiz-create');
 				})
 				.catch((error) => {
 					const errorCode = error.code;
@@ -42,10 +39,7 @@
 					const user = userCredential.user;
 					localStorage.setItem('uid', user.uid);
 					alert('User Created successfully!');
-					return {
-						status: 302,
-						redirect: '{base}/quiz-create'
-					};
+					goto('quiz-create');
 				})
 				.catch((error) => {
 					const errorCode = error.code;
