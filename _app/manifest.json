@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "immutable/start-6f7966b1.js",
+    "file": "immutable/start-1679948a.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -53,7 +53,7 @@
     ]
   },
   "src/routes/about.svelte": {
-    "file": "immutable/pages/about.svelte-00907628.js",
+    "file": "immutable/pages/about.svelte-5b7ad879.js",
     "src": "src/routes/about.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -109,7 +109,7 @@
     ]
   },
   "src/routes/joinus.svelte": {
-    "file": "immutable/pages/joinus.svelte-05de4b3c.js",
+    "file": "immutable/pages/joinus.svelte-3c01d1ac.js",
     "src": "src/routes/joinus.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -124,7 +124,7 @@
     ]
   },
   "src/routes/login.svelte": {
-    "file": "immutable/pages/login.svelte-cc739fa4.js",
+    "file": "immutable/pages/login.svelte-4779b83e.js",
     "src": "src/routes/login.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -157,7 +157,7 @@
     ]
   },
   "src/routes/quiz.svelte": {
-    "file": "immutable/pages/quiz.svelte-6e239825.js",
+    "file": "immutable/pages/quiz.svelte-5cce7deb.js",
     "src": "src/routes/quiz.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
