@@ -20,7 +20,7 @@
 			return {
 				status: 302,
 				redirect: '/login'
-			}
+			};
 		}
 	});
 
@@ -40,9 +40,43 @@
 
 	let Questions: Question[] = [];
 
-	onMount(async () => {
+	type User = {
+		gameID: string;
+
+		userID: string;
+
+		userEmail: string;
+	};
+
+	let Users: User[] = [];
+
+	let gameID: string;
+
+	async function getUsers() {
 		const db = getFirestore();
-		const ref = collection(db, 'questions');
+		const ref1 = collection(db, 'users');
+		const snapshot1 = await getDocs(ref1);
+		Users = snapshot1.docs.map((doc) => doc.data()) as User[];
+
+		for (let i = 0; i < Users.length; i++) {
+			if (Users[i].userID === localStorage.uid) {
+				gameID = Users[i].gameID;
+			}
+		}
+
+		localStorage.setItem('gameID', gameID);
+	}
+
+	onMount(async () => {
+
+		await getUsers();
+
+		const db = getFirestore();
+		let collectionName: string = await localStorage.gameID;
+
+		console.log("GAME ID:" + collectionName);
+		// let collectionName: string = 'questions' + localStorage.uid;
+		const ref = collection(db, collectionName);
 		const snapshot = await getDocs(ref);
 		Questions = snapshot.docs.map((doc) => doc.data()) as Question[];
 	});
@@ -83,7 +117,7 @@
 		ques.correctResponseIndex = correctResponseIndex;
 
 		const db = getFirestore();
-		const questions = collection(db, 'questions');
+		const questions = collection(db, gameID);
 		const newQues = await addDoc(questions, {
 			questionNumber,
 			question,

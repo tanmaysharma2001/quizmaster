@@ -36,6 +36,7 @@
 		signOut(auth)
 			.then(() => {
 				localStorage.removeItem('uid');
+				localStorage.removeItem('gameID');
 				return {
 					status: 302,
 					redirect: '{base}/login'

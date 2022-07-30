@@ -14,6 +14,9 @@
 		userEmail = user.email;
 		// console.log(userEmail);
 	}
+	else {
+		userEmail = localStorage.guestName;
+	}
 
 	import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 	import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
@@ -36,7 +39,7 @@
 
 	let userScore: number = 0;
 
-	let gameID: string = '4A6985';
+	let gameID: string = localStorage.gameID;
 	let timeRemaining: number = 0;
 
 	type Question = {
@@ -68,7 +71,7 @@
 
 	onMount(async () => {
 		const db = getFirestore();
-		const ref = collection(db, 'questions');
+		const ref = collection(db, gameID);
 		const snapshot = await getDocs(ref);
 		Questions = snapshot.docs.map((doc) => doc.data()) as Question[];
 		// console.log(Questions);
@@ -82,8 +85,6 @@
 	function showQuestions(Questions: Question[]) {
 		let output = [];
 		let answers;
-
-		console.log(Questions);
 
 		// for each question...
 		for (let i = 0; i < Questions.length; i++) {
@@ -102,13 +103,10 @@
 	}
 
 	async function showResults(Questions: Question[]) {
-		console.log('Hello World!');
 
 		let quizContainer = document.getElementById('quiz');
 
 		let answerContainers = quizContainer!.querySelectorAll('.answers');
-
-		console.log(answerContainers);
 
 		// keep track of user's answers
 		let userAnswer = 0;
@@ -117,8 +115,6 @@
 		// for each question...
 		for (let i = 0; i < correctResponses.length; i++) {
 			let radios = answerContainers[i].querySelectorAll('.inputs');
-
-			console.log(radios);
 
 			for (let j = 0; j < radios.length; j++) {
 				let item = radios[j] as HTMLInputElement;
@@ -138,16 +134,15 @@
 		let userScore: number = numCorrect;
 
 		const db = getFirestore();
-		const results = collection(db, 'results');
-
-		console.log(userEmail);
+		let resultsName: string = 'results' + gameID;
+		const results = collection(db, resultsName);
 
 		const newResult = await addDoc(results, {
 			userEmail,
 			userScore
 		});
 
-		alert(numCorrect);
+		localStorage.setItem('resultsID', resultsName);
 
 		goto('result');
 	}

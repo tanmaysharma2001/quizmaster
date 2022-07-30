@@ -5,11 +5,13 @@
 
 	import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 	import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
+	import { collection, getDocs, getFirestore } from 'firebase/firestore';
 
 	const provider = new GoogleAuthProvider();
 
 	let email: string;
 	let password: string;
+	let gameID: string;
 
 	const auth = getAuth();
 
@@ -30,7 +32,7 @@
 		});
 		if (a == 'login') {
 			signInWithEmailAndPassword(auth, email, password)
-				.then((userCredential) => {
+				.then(async (userCredential) => {
 					const user = userCredential.user;
 					localStorage.setItem('uid', user.uid);
 					alert('Signin Successfully. User id: ' + user.uid);
@@ -55,6 +57,38 @@
 				});
 		}
 	}
+
+	type Question = {
+		questionNumber: number;
+
+		question: string;
+
+		options: string[];
+
+		type: string;
+
+		timeAlotted: number;
+
+		correctResponseIndex: number;
+	};
+
+	let Questions: Question[] = [];
+
+	async function loginGuest() {
+		const db = getFirestore();
+		const ref = collection(db, gameID);
+		const snapshot = await getDocs(ref);
+		Questions = snapshot.docs.map((doc) => doc.data()) as Question[];
+
+		if (Questions.length === 0) {
+			alert("The Game ID doesn't exist!");
+		} else {
+			var guestName = prompt('Enter your username: ');
+			localStorage.setItem('guestName', guestName);
+			localStorage.setItem('gameID', gameID);
+			goto('quiz');
+		}
+	}
 </script>
 
 <svelte:head>
@@ -72,27 +106,42 @@
 <section class="login">
 	<div class="d1" />
 	<div class="d2" />
-	<form>
-		<div class="form-group">
-			<label for="email">Email address</label>
-			<input bind:value={email} type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
-			<small id="emailHelp" class="form-text text-muted"> We'll never share your email with anyone else. </small>
-		</div>
-		<div class="form-group">
-			<label for="password">Password</label>
-			<input type="password" class="form-control" id="password" placeholder="Password" bind:value={password} />
-		</div>
-		<!-- Forget your password-->
-		<div class="form-group">
-			<p class="forgetPass">
-				Forgot password? <a href="{base}/forgot-password" class="reset"> Rest your password! </a>
-			</p>
-		</div>
-		<button type="submit" class="btn btn-primary" on:click|preventDefault={() => login('login')}> Login </button>
-	</form>
+	<div class="login-forms">
+		<form>
+			<div class="form-group">
+				<label for="email">Email address</label>
+				<input bind:value={email} type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
+				<small id="emailHelp" class="form-text text-muted"> We'll never share your email with anyone else. </small>
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input type="password" class="form-control" id="password" placeholder="Password" bind:value={password} />
+			</div>
+			<!-- Forget your password-->
+			<div class="form-group">
+				<p class="forgetPass">
+					Forgot password? <a href="{base}/forgot-password" class="reset"> Rest your password! </a>
+				</p>
+			</div>
+			<button type="submit" class="btn btn-primary" on:click|preventDefault={() => login('login')}> Login </button>
+		</form>
+		<form>
+			<div class="form-group">
+				<h2>Login as Guest</h2>
+				<input bind:value={gameID} type="text" class="form-control" id="gameid" placeholder="Enter Game ID" />
+			</div>
+			<button type="submit" class="btn btn-primary" on:click|preventDefault={() => loginGuest()}> Play as Guest </button>
+		</form>
+	</div>
 </section>
 
 <style lang="scss">
+	.login-form {
+		width: 900px;
+		display: flex;
+		flex-direction: row;
+	}
+
 	#login-google-img {
 		height: 45px;
 		width: 180px;

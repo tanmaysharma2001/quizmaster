@@ -11,7 +11,8 @@
 
 	onMount(async () => {
 		const db = getFirestore();
-		const ref = collection(db, 'results');
+		let collectionName: string = localStorage.resultsID;
+		const ref = collection(db, collectionName);
 		const snapshot = await getDocs(ref);
 		results = snapshot.docs.map((doc) => doc.data()) as Result[];
 	});

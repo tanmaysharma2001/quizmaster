@@ -4,10 +4,21 @@
 	import { goto } from '$app/navigation';
 
 	import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+	import { collection, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore';
 
 	let email: string;
 	let password: string;
 	let username: string;
+
+	type User = {
+		gameID: string;
+
+		userID: string;
+
+		userEmail: string;
+	};
+
+	let Users: User[] = [];
 
 	function login(a: string) {
 		var auth = getAuth();
@@ -22,7 +33,7 @@
 		// });
 		if (a == 'login') {
 			signInWithEmailAndPassword(auth, email, password)
-				.then((userCredential) => {
+				.then(async (userCredential) => {
 					const user = userCredential.user;
 					localStorage.setItem('uid', user.uid);
 					alert('Signin Successfully. User id: ' + user.uid);
@@ -35,9 +46,33 @@
 				});
 		} else {
 			createUserWithEmailAndPassword(auth, email, password)
-				.then((userCredential) => {
+				.then(async (userCredential) => {
 					const user = userCredential.user;
 					localStorage.setItem('uid', user.uid);
+
+					const db = getFirestore();
+
+					// Add the user to "Users" collection
+					await setDoc(doc(db, 'users', user.uid), {
+						userEmail: email,
+						userID: user.uid,
+						gameID: generateGameID()
+					});
+
+					const ref1 = collection(db, 'users');
+					const snapshot1 = await getDocs(ref1);
+					Users = snapshot1.docs.map((doc) => doc.data()) as User[];
+
+					let gameID: string = '';
+					for (let i = 0; i < Users.length; i++) {
+						if (Users[i].userID === localStorage.uid) {
+							gameID = Users[i].gameID;
+						}
+					}
+
+					localStorage.setItem('uid', user.uid);
+					localStorage.setItem('gameID', gameID);
+
 					alert('User Created successfully!');
 					goto('quiz-create');
 				})
@@ -47,6 +82,16 @@
 					alert(errorCode + ' ' + errorMessage);
 				});
 		}
+	}
+
+	function generateGameID(): string {
+		var result = '';
+		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		var charactersLength = characters.length;
+		for (var i = 0; i < 6; i++) {
+			result += characters.charAt(Math.floor(Math.random() * charactersLength));
+		}
+		return result;
 	}
 </script>
 
