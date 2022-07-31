@@ -1,0 +1,1 @@
+import{w as e}from"./index-8dccaea8.js";const t=e(sessionStorage.getItem("gameIDFromBrowser")||""),r=e(sessionStorage.getItem("guestNameFromBrowser")||"");r.subscribe(s=>sessionStorage.guestNameFromBrowser=s);export{r as a,t as g};
