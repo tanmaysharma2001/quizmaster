@@ -5,6 +5,7 @@
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	// import { goto } from '$app/navigation';
+	import { gameIDFromBrowser, guestNameFromBrowser } from './stores';
 
 	const auth = getAuth();
 	const user = auth.currentUser;
@@ -15,7 +16,7 @@
 		// console.log(userEmail);
 	}
 	else {
-		userEmail = localStorage.guestName;
+		userEmail = $guestNameFromBrowser;
 	}
 
 	import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
@@ -39,7 +40,7 @@
 
 	let userScore: number = 0;
 
-	let gameID: string = localStorage.gameID;
+	let gameID: string = $gameIDFromBrowser;
 	let timeRemaining: number = 0;
 
 	type Question = {

@@ -7,11 +7,20 @@
 	import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 	import { collection, getDocs, getFirestore } from 'firebase/firestore';
 
+	import { guestNameFromBrowser, gameIDFromBrowser } from './stores';
+	import { browser } from '$app/env';
+
+	gameIDFromBrowser.subscribe((val) => browser && (sessionStorage.gameIDFromBrowser = val));
+
 	const provider = new GoogleAuthProvider();
 
 	let email: string;
 	let password: string;
 	let gameID: string;
+
+	var guestName;
+
+	// let gameID:string = $gameIDFromBrowser;
 
 	const auth = getAuth();
 
@@ -83,9 +92,9 @@
 		if (Questions.length === 0) {
 			alert("The Game ID doesn't exist!");
 		} else {
-			var guestName = prompt('Enter your username: ');
-			localStorage.setItem('guestName', guestName);
-			localStorage.setItem('gameID', gameID);
+			guestName = prompt('Enter your username: ');
+			gameIDFromBrowser.set(gameID);
+			guestNameFromBrowser.set(guestName);
 			goto('quiz');
 		}
 	}
