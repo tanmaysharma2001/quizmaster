@@ -8,7 +8,7 @@ export const gameIDFromBrowser = writable(
 
 // jsdsjand
 
-// gameIDFromBrowser.subscribe((val) => browser && (sessionStorage.gameIDFromBrowser = val));
+gameIDFromBrowser.subscribe((val) => browser && (sessionStorage.gameIDFromBrowser = val));
 
 export const guestNameFromBrowser = writable(
     browser && (sessionStorage.getItem("guestNameFromBrowser") || "")

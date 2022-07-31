@@ -64,7 +64,7 @@
 			}
 		}
 
-		localStorage.setItem('gameID', gameID);
+		sessionStorage.setItem('gameIDFromBrowser', gameID);
 	}
 
 	onMount(async () => {
@@ -72,7 +72,7 @@
 		await getUsers();
 
 		const db = getFirestore();
-		let collectionName: string = await localStorage.gameID;
+		let collectionName: string = await sessionStorage.gameIDFromBrowser;
 
 		console.log("GAME ID:" + collectionName);
 		// let collectionName: string = 'questions' + localStorage.uid;
@@ -129,8 +129,6 @@
 		});
 
 		Questions = [...Questions, ques];
-
-		console.log(Questions);
 	}
 
 	function displayQuestion(Ques: Question) {
