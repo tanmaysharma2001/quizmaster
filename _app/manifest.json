@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "immutable/start-9b7e6938.js",
+    "file": "immutable/start-1d996498.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -126,7 +126,7 @@
     ]
   },
   "src/routes/login.svelte": {
-    "file": "immutable/pages/login.svelte-d8c5842b.js",
+    "file": "immutable/pages/login.svelte-7b39346e.js",
     "src": "src/routes/login.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -136,7 +136,7 @@
       "_index-90ebcfae-1b4ca923.js",
       "_index.esm2017-da53403b.js",
       "_index.esm2017-58b2c317.js",
-      "_stores-045169f3.js",
+      "_stores-7c2c8f5a.js",
       "_singletons-cdeec3fd.js",
       "_index-8dccaea8.js"
     ],
@@ -145,7 +145,7 @@
     ]
   },
   "src/routes/quiz-create.svelte": {
-    "file": "immutable/pages/quiz-create.svelte-27b2110a.js",
+    "file": "immutable/pages/quiz-create.svelte-f99a868a.js",
     "src": "src/routes/quiz-create.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -162,7 +162,7 @@
     ]
   },
   "src/routes/quiz.svelte": {
-    "file": "immutable/pages/quiz.svelte-ff7c2881.js",
+    "file": "immutable/pages/quiz.svelte-45f55ca7.js",
     "src": "src/routes/quiz.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -170,7 +170,7 @@
       "_index-d659e3b3.js",
       "_index.esm2017-58b2c317.js",
       "_index-90ebcfae-1b4ca923.js",
-      "_stores-045169f3.js",
+      "_stores-7c2c8f5a.js",
       "_index.esm2017-da53403b.js",
       "_singletons-cdeec3fd.js",
       "_index-8dccaea8.js"
@@ -239,8 +239,8 @@
       "_index.esm2017-da53403b.js"
     ]
   },
-  "_stores-045169f3.js": {
-    "file": "immutable/chunks/stores-045169f3.js",
+  "_stores-7c2c8f5a.js": {
+    "file": "immutable/chunks/stores-7c2c8f5a.js",
     "imports": [
       "_index-8dccaea8.js"
     ]
